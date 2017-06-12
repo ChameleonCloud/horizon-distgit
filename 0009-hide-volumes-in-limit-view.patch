@@ -1,0 +1,22 @@
+From e84ef9a60d19b4a27cfe1a50621c650a1370ae2f Mon Sep 17 00:00:00 2001
+From: Matthew R Hanlon <mrhanlon@tacc.utexas.edu>
+Date: Fri, 3 Apr 2015 16:40:56 -0500
+Subject: [PATCH 09/16] hide volumes in limit view
+
+---
+ horizon/templates/horizon/common/_limit_summary.html | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/horizon/templates/horizon/common/_limit_summary.html b/horizon/templates/horizon/common/_limit_summary.html
+index 2a491e1..69a80ad 100644
+--- a/horizon/templates/horizon/common/_limit_summary.html
++++ b/horizon/templates/horizon/common/_limit_summary.html
+@@ -16,5 +16,4 @@
+       </strong>
+     </div>
+     {% endfor %}
+-
+ </div>
+-- 
+2.7.1
+

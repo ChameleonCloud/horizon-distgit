@@ -1,0 +1,61 @@
+From 30509b7e864ad7d0dc3ce235c58c51385ad3b706 Mon Sep 17 00:00:00 2001
+From: Matthew R Hanlon <mrhanlon@tacc.utexas.edu>
+Date: Mon, 9 Mar 2015 10:19:00 -0500
+Subject: [PATCH 05/16] show lease name; only show active leases
+
+---
+ .../project/instances/workflows/create_instance.py | 24 ++++++++++++++++++----
+ 1 file changed, 20 insertions(+), 4 deletions(-)
+
+diff --git a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
+index 846983c..fd8dc83 100644
+--- a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
++++ b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
+@@ -21,6 +21,7 @@ import logging
+ import operator
+ 
+ from oslo_utils import units
++from blazardashboard.api import blazar
+ 
+ from django.template.defaultfilters import filesizeformat  # noqa
+ from django.utils.text import normalize_newlines  # noqa
+@@ -81,9 +82,9 @@ class SetInstanceDetailsAction(workflows.Action):
+     availability_zone = forms.ChoiceField(label=_("Availability Zone"),
+                                           required=False)
+ 
+-    reservation_id = forms.CharField(label=_("Reservation ID"),
+-                                     max_length=255,
+-                                     required=False)
++    reservation_id = forms.ChoiceField(label=_("Reservation"),
++                                       help_text=_("Choose a reservation to launch this instance against. Only active reservations are displayed as options."),
++                                       required=False)
+ 
+     name = forms.CharField(label=_("Instance Name"),
+                            max_length=255)
+@@ -374,7 +375,22 @@ class SetInstanceDetailsAction(workflows.Action):
+         return cleaned_data
+ 
+     def populate_flavor_choices(self, request, context):
+-        return instance_utils.flavor_field_data(request, False)
++        flavors = instance_utils.flavor_list(request)
++        if flavors:
++            return instance_utils.sort_flavor_list(request, flavors)
++        return []
++
++    def populate_reservation_id_choices(self, request, context):
++        leases = blazar.lease_list(request)
++        reservation_ids = []
++        if leases:
++            for lease in leases:
++                for reservation in lease.reservations:
++                    if reservation['status'] == 'active':
++                        label = '%s (%s)' % (lease['name'], reservation['id'])
++                        reservation_ids.append((reservation['id'], label))
++
++        return reservation_ids
+ 
+     def populate_availability_zone_choices(self, request, context):
+         try:
+-- 
+2.7.1
+

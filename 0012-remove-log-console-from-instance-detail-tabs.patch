@@ -1,0 +1,24 @@
+From a754ccae3b986cd7315ce4b95693c0a06607b991 Mon Sep 17 00:00:00 2001
+From: Matthew R Hanlon <mrhanlon@tacc.utexas.edu>
+Date: Fri, 3 Apr 2015 16:42:23 -0500
+Subject: [PATCH 12/16] remove log, console from instance detail tabs
+
+---
+ openstack_dashboard/dashboards/project/instances/tabs.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/openstack_dashboard/dashboards/project/instances/tabs.py b/openstack_dashboard/dashboards/project/instances/tabs.py
+index 652888c..f472c32 100644
+--- a/openstack_dashboard/dashboards/project/instances/tabs.py
++++ b/openstack_dashboard/dashboards/project/instances/tabs.py
+@@ -110,5 +110,6 @@ class AuditTab(tabs.TableTab):
+ 
+ class InstanceDetailTabs(tabs.TabGroup):
+     slug = "instance_details"
+-    tabs = (OverviewTab, LogTab, ConsoleTab, AuditTab)
++    # tabs = (OverviewTab, LogTab, ConsoleTab, AuditTab)
++    tabs = (OverviewTab, AuditTab)
+     sticky = True
+-- 
+2.7.1
+

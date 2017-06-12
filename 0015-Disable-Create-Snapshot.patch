@@ -1,0 +1,26 @@
+From bedffe805c3cbed801615299caf54c99921dc9cc Mon Sep 17 00:00:00 2001
+From: Pierre Riteau <priteau@uchicago.edu>
+Date: Mon, 6 Apr 2015 14:36:29 +0200
+Subject: [PATCH 15/16] Disable Create Snapshot
+
+---
+ openstack_dashboard/dashboards/project/instances/tables.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/openstack_dashboard/dashboards/project/instances/tables.py b/openstack_dashboard/dashboards/project/instances/tables.py
+index 89e78f2..515923a 100644
+--- a/openstack_dashboard/dashboards/project/instances/tables.py
++++ b/openstack_dashboard/dashboards/project/instances/tables.py
+@@ -1171,7 +1171,8 @@ class InstancesTable(tables.DataTable):
+         table_actions = launch_actions + (TerminateInstance,
+                                           InstancesFilterAction)
+         row_actions = (StartInstance, ConfirmResize, RevertResize,
+-                       CreateSnapshot, SimpleAssociateIP, AssociateIP,
++                       # CreateSnapshot, SimpleAssociateIP, AssociateIP,
++                       SimpleAssociateIP, AssociateIP,
+                        SimpleDisassociateIP, AttachInterface,
+                        DetachInterface, EditInstance,
+                        DecryptInstancePassword, EditInstanceSecurityGroups,
+-- 
+2.7.1
+

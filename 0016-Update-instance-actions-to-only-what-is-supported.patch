@@ -1,0 +1,52 @@
+From 025ad3d6d7db548711afcbcd72f3f3ecc417f5bc Mon Sep 17 00:00:00 2001
+From: Pierre Riteau <priteau@uchicago.edu>
+Date: Mon, 6 Apr 2015 15:04:57 +0200
+Subject: [PATCH 16/16] Update instance actions to only what is supported
+
+---
+ .../dashboards/project/instances/tables.py         | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
+
+diff --git a/openstack_dashboard/dashboards/project/instances/tables.py b/openstack_dashboard/dashboards/project/instances/tables.py
+index 515923a..66ddc18 100644
+--- a/openstack_dashboard/dashboards/project/instances/tables.py
++++ b/openstack_dashboard/dashboards/project/instances/tables.py
+@@ -1162,7 +1162,7 @@ class InstancesTable(tables.DataTable):
+         verbose_name = _("Instances")
+         status_columns = ["status", "task"]
+         row_class = UpdateRow
+-        table_actions_menu = (StartInstance, StopInstance, SoftRebootInstance)
++        table_actions_menu = (StartInstance, StopInstance, RebootInstance)
+         launch_actions = ()
+         if getattr(settings, 'LAUNCH_INSTANCE_LEGACY_ENABLED', True):
+             launch_actions = (LaunchLink,) + launch_actions
+@@ -1170,14 +1170,18 @@ class InstancesTable(tables.DataTable):
+             launch_actions = (LaunchLinkNG,) + launch_actions
+         table_actions = launch_actions + (TerminateInstance,
+                                           InstancesFilterAction)
++        # row_actions = (StartInstance, ConfirmResize, RevertResize,
++        #                CreateSnapshot, SimpleAssociateIP, AssociateIP,
++        #                SimpleDisassociateIP, AttachInterface,
++        #                DetachInterface, EditInstance,
++        #                DecryptInstancePassword, EditInstanceSecurityGroups,
++        #                ConsoleLink, LogLink, TogglePause, ToggleSuspend,
++        #                ToggleShelve, ResizeLink, LockInstance, UnlockInstance,
++        #                SoftRebootInstance, RebootInstance,
++        #                StopInstance, RebuildInstance, TerminateInstance)
+         row_actions = (StartInstance, ConfirmResize, RevertResize,
+-                       # CreateSnapshot, SimpleAssociateIP, AssociateIP,
+                        SimpleAssociateIP, AssociateIP,
+-                       SimpleDisassociateIP, AttachInterface,
+-                       DetachInterface, EditInstance,
++                       SimpleDisassociateIP, EditInstance,
+                        DecryptInstancePassword, EditInstanceSecurityGroups,
+-                       # ConsoleLink, LogLink, TogglePause, ToggleSuspend,
+-                       # ToggleShelve, ResizeLink, LockInstance, UnlockInstance,
+-                       # SoftRebootInstance, RebootInstance,
+-                       ResizeLink, RebootInstance,
+-                       StopInstance, RebuildInstance, TerminateInstance)
++                       RebootInstance, StopInstance, RebuildInstance,
++                       TerminateInstance)
+-- 
+2.7.1
+

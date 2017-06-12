@@ -1,0 +1,86 @@
+From 4db34e6603b7f24ecef9d9d139e117135e610cca Mon Sep 17 00:00:00 2001
+From: Pierre Riteau <priteau@uchicago.edu>
+Date: Fri, 6 Mar 2015 22:24:40 +0000
+Subject: [PATCH 04/16] Add a optional text field to specify a reservation ID
+ when launching an instance
+
+Ideally the field should become a pre-populated list of reservation IDs
+(and even better showing their associated lease name). I tried doing
+that using the commented code, but it is not ready.
+---
+ openstack_dashboard/api/nova.py                            |  5 +++--
+ .../project/instances/workflows/create_instance.py         | 14 ++++++++++++--
+ 2 files changed, 15 insertions(+), 4 deletions(-)
+
+diff --git a/openstack_dashboard/api/nova.py b/openstack_dashboard/api/nova.py
+index 01d075c..4bc25aa 100644
+--- a/openstack_dashboard/api/nova.py
++++ b/openstack_dashboard/api/nova.py
+@@ -580,7 +580,8 @@ def server_create(request, name, image, flavor, key_name, user_data,
+                   security_groups, block_device_mapping=None,
+                   block_device_mapping_v2=None, nics=None,
+                   availability_zone=None, instance_count=1, admin_pass=None,
+-                  disk_config=None, config_drive=None, meta=None):
++                  disk_config=None, config_drive=None, meta=None,
++                  scheduler_hints=None):
+     return Server(novaclient(request).servers.create(
+         name, image, flavor, userdata=user_data,
+         security_groups=security_groups,
+@@ -589,7 +590,7 @@ def server_create(request, name, image, flavor, key_name, user_data,
+         nics=nics, availability_zone=availability_zone,
+         min_count=instance_count, admin_pass=admin_pass,
+         disk_config=disk_config, config_drive=config_drive,
+-        meta=meta), request)
++        meta=meta, scheduler_hints=scheduler_hints), request)
+ 
+ 
+ def server_delete(request, instance):
+diff --git a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
+index 04898ac..846983c 100644
+--- a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
++++ b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
+@@ -81,6 +81,10 @@ class SetInstanceDetailsAction(workflows.Action):
+     availability_zone = forms.ChoiceField(label=_("Availability Zone"),
+                                           required=False)
+ 
++    reservation_id = forms.CharField(label=_("Reservation ID"),
++                                     max_length=255,
++                                     required=False)
++
+     name = forms.CharField(label=_("Instance Name"),
+                            max_length=255)
+ 
+@@ -504,7 +508,7 @@ class SetInstanceDetailsAction(workflows.Action):
+ class SetInstanceDetails(workflows.Step):
+     action_class = SetInstanceDetailsAction
+     depends_on = ("project_id", "user_id")
+-    contributes = ("source_type", "source_id",
++    contributes = ("source_type", "source_id", "reservation_id"
+                    "availability_zone", "name", "count", "flavor",
+                    "device_name",  # Can be None for an image.
+                    "delete_on_terminate")
+@@ -929,6 +933,11 @@ class LaunchInstance(workflows.Workflow):
+                                                   context['network_id'],
+                                                   context['profile_id'])
+ 
++        scheduler_hints = None
++        reservation_id = context.get('reservation_id', None)
++        if reservation_id is not None:
++            scheduler_hints = {"reservation": reservation_id}
++
+         try:
+             api.nova.server_create(request,
+                                    context['name'],
+@@ -944,7 +953,8 @@ class LaunchInstance(workflows.Workflow):
+                                    instance_count=int(context['count']),
+                                    admin_pass=context['admin_pass'],
+                                    disk_config=context.get('disk_config'),
+-                                   config_drive=context.get('config_drive'))
++                                   config_drive=context.get('config_drive'),
++                                   scheduler_hints=scheduler_hints)
+             return True
+         except Exception:
+             if port_profiles_supported:
+-- 
+2.7.1
+

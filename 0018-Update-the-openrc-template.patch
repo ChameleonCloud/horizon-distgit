@@ -1,0 +1,27 @@
+From 3cfe8e0b48d49d5b1b380209fa555434835f98b6 Mon Sep 17 00:00:00 2001
+From: Jonathan Pastor <jonathancmoa@gmail.com>
+Date: Mon, 12 Sep 2016 11:10:28 -0500
+Subject: [PATCH] Update the openrc template to display "Chameleon" instead of
+ "OpenStack" (Task #10517)
+
+---
+ .../templates/access_and_security/api_access/openrc.sh.template         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/openstack_dashboard/dashboards/project/access_and_security/templates/access_and_security/api_access/openrc.sh.template b/openstack_dashboard/dashboards/project/access_and_security/templates/access_and_security/api_access/openrc.sh.template
+index 2b6a709..86db8e6 100644
+--- a/openstack_dashboard/dashboards/project/access_and_security/templates/access_and_security/api_access/openrc.sh.template
++++ b/openstack_dashboard/dashboards/project/access_and_security/templates/access_and_security/api_access/openrc.sh.template
+@@ -24,7 +24,7 @@ export OS_PROJECT_NAME="{{ tenant_name|shellfilter }}"
+ export OS_USERNAME="{{ user.username|shellfilter }}"
+ 
+ # With Keystone you pass the keystone password.
+-echo "Please enter your OpenStack Password: "
++echo "Please enter your Chameleon Password: "
+ read -sr OS_PASSWORD_INPUT
+ export OS_PASSWORD=$OS_PASSWORD_INPUT
+ 
+-- 
+2.10.0
+
+

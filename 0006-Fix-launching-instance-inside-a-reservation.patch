@@ -1,0 +1,49 @@
+From eac8124063245da668318517eb9b5cde3ebfe94f Mon Sep 17 00:00:00 2001
+From: Pierre Riteau <priteau@uchicago.edu>
+Date: Mon, 9 Mar 2015 18:43:30 +0000
+Subject: [PATCH 06/16] Fix launching instance inside a reservation
+
+The scheduler hint was actually not applied because reservation_id was
+always None. This is caused by a missing comma in the contributes tuple,
+which meant "reservation_id" and "availability_zone" were concatenated.
+
+Also add a form choice for launching without using a reservation.
+---
+ .../dashboards/project/instances/workflows/create_instance.py      | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
+index fd8dc83..a978ef4 100644
+--- a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
++++ b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
+@@ -390,6 +390,10 @@ class SetInstanceDetailsAction(workflows.Action):
+                         label = '%s (%s)' % (lease['name'], reservation['id'])
+                         reservation_ids.append((reservation['id'], label))
+ 
++        if not reservation_ids:
++            reservation_ids.insert(0, ("", _("No reservation found")))
++        else:
++            reservation_ids.append(("", _("Launch without reservation")))
+         return reservation_ids
+ 
+     def populate_availability_zone_choices(self, request, context):
+@@ -524,7 +528,7 @@ class SetInstanceDetailsAction(workflows.Action):
+ class SetInstanceDetails(workflows.Step):
+     action_class = SetInstanceDetailsAction
+     depends_on = ("project_id", "user_id")
+-    contributes = ("source_type", "source_id", "reservation_id"
++    contributes = ("source_type", "source_id", "reservation_id",
+                    "availability_zone", "name", "count", "flavor",
+                    "device_name",  # Can be None for an image.
+                    "delete_on_terminate")
+@@ -953,7 +957,6 @@ class LaunchInstance(workflows.Workflow):
+         reservation_id = context.get('reservation_id', None)
+         if reservation_id is not None:
+             scheduler_hints = {"reservation": reservation_id}
+-
+         try:
+             api.nova.server_create(request,
+                                    context['name'],
+-- 
+2.7.1
+

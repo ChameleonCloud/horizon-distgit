@@ -12,7 +12,7 @@ Name:       python-django-horizon
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:      1
 Version:    8.0.1
-Release:    2%{?dist}
+Release:    2.4%{?dist}
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 Summary:    Django application for talking to Openstack
 
@@ -38,6 +38,23 @@ Source6:    rdo-logo-white.png
 Patch0001: 0001-disable-debug-move-web-root.patch
 Patch0002: 0002-Add-a-customization-module-based-on-RHOS.patch
 Patch0003: 0003-Escape-angularjs-templating-in-unsafe-HTML.patch
+Patch0004: 0004-Add-a-optional-text-field-to-specify-a-reservation-I.patch
+Patch0005: 0005-show-lease-name-only-show-active-leases.patch
+Patch0006: 0006-Fix-launching-instance-inside-a-reservation.patch
+Patch0007: 0007-update-scheduler-hint.patch
+Patch0008: 0008-override-volumes-template-to-display-feature-not-ava.patch
+Patch0009: 0009-hide-volumes-in-limit-view.patch
+Patch0010: 0010-remove-disk-partition-from-rebuild-instance-form.patch
+Patch0011: 0011-customize-table-row-actions-for-ironic-supported-fea.patch
+Patch0012: 0012-remove-log-console-from-instance-detail-tabs.patch
+Patch0013: 0013-remove-volumes-advanced-from-create-instance.patch
+Patch0014: 0014-Disable-Boot-from-snapshot-too.patch
+Patch0015: 0015-Disable-Create-Snapshot.patch
+Patch0016: 0016-Update-instance-actions-to-only-what-is-supported.patch
+Patch0017: 0017-add-new-custom-constraint-for-blazar-reservations.patch
+Patch0018: 0018-Update-the-openrc-template.patch
+Patch0019: 0019-Backport-commit-edeb9ddaf98f5a2a735bca795ffd5e4d9b40.patch
+Patch0020: 0020-Removed-availablity-zone-from-both-instance-creation.patch
 
 #
 # BuildArch needs to be located below patches in the spec file. Don't ask!

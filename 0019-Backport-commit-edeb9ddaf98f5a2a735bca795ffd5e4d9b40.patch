@@ -1,0 +1,36 @@
+From 078b93d77cb63e6e9335c76dde6d3900e912cb86 Mon Sep 17 00:00:00 2001
+From: Pierre Riteau <priteau@uchicago.edu>
+Date: Thu, 20 Oct 2016 16:04:42 +0100
+Subject: [PATCH 3/3] Backport commit edeb9ddaf98f5a2a735bca795ffd5e4d9b403fd6
+ from master
+
+    Change projects redirects to overview page
+
+    I read the code of switch region and modify the code of switch project.
+    Now change project will redirect to the original page.
+---
+ openstack_dashboard/templates/context_selection/_project_list.html | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/openstack_dashboard/templates/context_selection/_project_list.html b/openstack_dashboard/templates/context_selection/_project_list.html
+index 3c8a17a..6912ba1 100644
+--- a/openstack_dashboard/templates/context_selection/_project_list.html
++++ b/openstack_dashboard/templates/context_selection/_project_list.html
+@@ -1,12 +1,12 @@
+ {% load i18n %}
+ {% load url from future %}
+ 
+-{% with dashboard_url=request.horizon.dashboard.get_absolute_url %}
++{% with page_url=request.horizon.panel.get_absolute_url %}
+ <ul>
+   <li class="dropdown-header">{% trans "Projects:" %}</li>
+   {% for project in projects %}
+   <li>
+-    <a href="{% url 'switch_tenants' project.id %}?next={{ dashboard_url }}">
++    <a href="{% url 'switch_tenants' project.id %}?next={{ page_url }}">
+       {{ project.name }}
+       {% if project.enabled and project.id == project_id %}
+       <span class="fa fa-check"></span>
+-- 
+2.10.1
+

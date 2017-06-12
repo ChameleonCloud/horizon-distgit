@@ -1,0 +1,25 @@
+From 728005aaeeea2fef9b5cf07725b7c0bca201fb52 Mon Sep 17 00:00:00 2001
+From: Matthew R Hanlon <mrhanlon@tacc.utexas.edu>
+Date: Wed, 27 Jan 2016 13:30:26 -0600
+Subject: [PATCH 07/16] update scheduler hint
+
+---
+ .../dashboards/project/instances/workflows/create_instance.py           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
+index a978ef4..5e7ccec 100644
+--- a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
++++ b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
+@@ -955,7 +955,7 @@ class LaunchInstance(workflows.Workflow):
+ 
+         scheduler_hints = None
+         reservation_id = context.get('reservation_id', None)
+-        if reservation_id is not None:
++        if reservation_id:
+             scheduler_hints = {"reservation": reservation_id}
+         try:
+             api.nova.server_create(request,
+-- 
+2.7.1
+

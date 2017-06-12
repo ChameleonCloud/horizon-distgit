@@ -1,0 +1,65 @@
+From d2403700ca3c0f7c05b3fbb52987f9b39c3d6f99 Mon Sep 17 00:00:00 2001
+From: Matthew R Hanlon <mrhanlon@tacc.utexas.edu>
+Date: Fri, 3 Apr 2015 16:43:05 -0500
+Subject: [PATCH 13/16] remove volumes, advanced from create instance
+
+---
+ .../project/instances/workflows/create_instance.py | 35 +++++++++++-----------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
+
+diff --git a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
+index 5e7ccec..2074a58 100644
+--- a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
++++ b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
+@@ -160,22 +160,22 @@ class SetInstanceDetailsAction(workflows.Action):
+             ("image_id", _("Boot from image")),
+             ("instance_snapshot_id", _("Boot from snapshot")),
+         ]
+-        if base.is_service_enabled(request, 'volume'):
+-            source_type_choices.append(("volume_id", _("Boot from volume")))
+-
+-            try:
+-                if api.nova.extension_supported("BlockDeviceMappingV2Boot",
+-                                                request):
+-                    source_type_choices.append(
+-                        ("volume_image_id",
+-                         _("Boot from image (creates a new volume)")))
+-            except Exception:
+-                exceptions.handle(request, _('Unable to retrieve extensions '
+-                                             'information.'))
+-
+-            source_type_choices.append(
+-                ("volume_snapshot_id",
+-                 _("Boot from volume snapshot (creates a new volume)")))
++        # if base.is_service_enabled(request, 'volume'):
++        #     source_type_choices.append(("volume_id", _("Boot from volume")))
++        #
++        #     try:
++        #         if api.nova.extension_supported("BlockDeviceMappingV2Boot",
++        #                                         request):
++        #             source_type_choices.append(
++        #                 ("volume_image_id",
++        #                  _("Boot from image (creates a new volume)")))
++        #     except Exception:
++        #         exceptions.handle(request, _('Unable to retrieve extensions '
++        #                                      'information.'))
++        #
++        #     source_type_choices.append(
++        #         ("volume_snapshot_id",
++        #          _("Boot from volume snapshot (creates a new volume)")))
+         self.fields['source_type'].choices = source_type_choices
+ 
+     @memoized.memoized_method
+@@ -867,7 +867,8 @@ class LaunchInstance(workflows.Workflow):
+                      SetAccessControls,
+                      SetNetwork,
+                      PostCreationStep,
+-                     SetAdvanced)
++                    #  SetAdvanced
++                     )
+ 
+     def format_status_message(self, message):
+         name = self.context.get('name', 'unknown instance')
+-- 
+2.7.1
+

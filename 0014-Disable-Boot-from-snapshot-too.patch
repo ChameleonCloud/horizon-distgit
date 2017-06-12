@@ -1,0 +1,28 @@
+From 22103dcb07736a08e85c90964d70438ec14c1c2c Mon Sep 17 00:00:00 2001
+From: Pierre Riteau <priteau@uchicago.edu>
+Date: Mon, 6 Apr 2015 12:51:58 +0200
+Subject: [PATCH 14/16] Disable Boot from snapshot too
+
+---
+ .../dashboards/project/instances/workflows/create_instance.py         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
+index 2074a58..4735ac7 100644
+--- a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
++++ b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
+@@ -156,9 +156,9 @@ class SetInstanceDetailsAction(workflows.Action):
+             self.fields['device_name'].widget = forms.widgets.HiddenInput()
+ 
+         source_type_choices = [
+-            ('', _("Select source")),
++            #('', _("Select source")),
+             ("image_id", _("Boot from image")),
+-            ("instance_snapshot_id", _("Boot from snapshot")),
++            #("instance_snapshot_id", _("Boot from snapshot")),
+         ]
+         # if base.is_service_enabled(request, 'volume'):
+         #     source_type_choices.append(("volume_id", _("Boot from volume")))
+-- 
+2.7.1
+

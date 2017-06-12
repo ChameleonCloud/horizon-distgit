@@ -1,0 +1,31 @@
+From db9fccc2b1de06ddac3530b22c4b4795e288fc38 Mon Sep 17 00:00:00 2001
+From: Matthew R Hanlon <mrhanlon@tacc.utexas.edu>
+Date: Wed, 3 Aug 2016 14:02:58 -0500
+Subject: [PATCH] add new custom constraint for blazar reservations
+
+---
+ openstack_dashboard/dashboards/project/stacks/forms.py | 4 ++++
+ 1 files changed, 4 insertions(+)
+
+diff --git a/openstack_dashboard/dashboards/project/stacks/forms.py b/openstack_dashboard/dashboards/project/stacks/forms.py
+index 431b6c2..a6954cd 100644
+--- a/openstack_dashboard/dashboards/project/stacks/forms.py
++++ b/openstack_dashboard/dashboards/project/stacks/forms.py
+@@ -29,6 +29,8 @@
+     import utils as image_utils
+ from openstack_dashboard.dashboards.project.instances \
+     import utils as instance_utils
++from blazardashboard.dashboards.project.leases \
++    import utils as blazar_utils
+ 
+ 
+ LOG = logging.getLogger(__name__)
+@@ -395,6 +397,8 @@ def _populate_custom_choices(self, custom_type):
+             return image_utils.image_field_data(self.request, True)
+         if custom_type == 'nova.flavor':
+             return instance_utils.flavor_field_data(self.request, True)
++        if custom_type == 'blazar.reservation':
++            return blazar_utils.reservation_data(self.request, True)
+         return []
+ 
+ 

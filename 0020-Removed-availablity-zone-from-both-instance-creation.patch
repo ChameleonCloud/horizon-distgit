@@ -1,0 +1,28 @@
+From f401f8d5b086062417ba871def881f84a38b63ea Mon Sep 17 00:00:00 2001
+From: Carrie Arnold <cmarnold@tacc.utexas.edu>
+Date: Wed, 19 Oct 2016 14:37:53 -0500
+Subject: [PATCH] Removed availablity zone from both instance creation form and
+ the instances table
+
+---
+ .../dashboards/project/instances/workflows/create_instance.py         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
+index c7d47de..20f6994 100644
+--- a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
++++ b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
+@@ -79,8 +79,8 @@ class SelectProjectUser(workflows.Step):
+ 
+ 
+ class SetInstanceDetailsAction(workflows.Action):
+-    availability_zone = forms.ChoiceField(label=_("Availability Zone"),
+-                                          required=False)
++    #availability_zone = forms.ChoiceField(label=_("Availability Zone"),
++     #                                     required=False)
+ 
+     reservation_id = forms.ChoiceField(label=_("Reservation"),
+                                        help_text=_("Choose a reservation to launch this instance against. Only active reservations are displayed as options."),
+-- 
+2.10.2
+
