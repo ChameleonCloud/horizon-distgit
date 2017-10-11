@@ -1,0 +1,85 @@
+From 7bba00d0943ea576bb6a80b24c4902cc6d31b2f9 Mon Sep 17 00:00:00 2001
+From: Nick Timkovich <npt@uchicago.edu>
+Date: Tue, 13 Jun 2017 17:14:11 -0500
+Subject: [PATCH 3/6] Hide stats that are irrelevant for baremetal
+
+---
+ horizon/templates/horizon/common/_usage_summary.html           |  2 ++
+ .../instances/templates/instances/_detail_overview.html        | 10 ----------
+ openstack_dashboard/usage/tables.py                            |  8 +++++++-
+ openstack_dashboard/usage/views.py                             |  4 ++--
+ 4 files changed, 11 insertions(+), 13 deletions(-)
+
+diff --git a/horizon/templates/horizon/common/_usage_summary.html b/horizon/templates/horizon/common/_usage_summary.html
+index 8a50d70eb..871155250 100644
+--- a/horizon/templates/horizon/common/_usage_summary.html
++++ b/horizon/templates/horizon/common/_usage_summary.html
+@@ -18,9 +18,11 @@
+   </form>
+   <p id="activity">
+     <span><strong>{% trans "Active Instances:" %}</strong> {{ usage.summary.instances|default:'0' }}</span>
++    <!--
+     <span><strong>{% trans "Active RAM:" %}</strong> {{ usage.summary.memory_mb|mb_float_format|default:'0' }}</span>
+     <span><strong>{% trans "This Period's VCPU-Hours:" %}</strong> {{ usage.summary.vcpu_hours|floatformat:2|default:'0' }}</span>
+     <span><strong>{% trans "This Period's GB-Hours:" %}</strong> {{ usage.summary.disk_gb_hours|floatformat:2|default:'0' }}</span>
+     <span><strong>{% trans "This Period's RAM-Hours:" %}</strong> {{ usage.summary.memory_mb_hours|floatformat:2|default:'0' }}</span>
++    -->
+   </p>
+ </div>
+diff --git a/openstack_dashboard/dashboards/project/instances/templates/instances/_detail_overview.html b/openstack_dashboard/dashboards/project/instances/templates/instances/_detail_overview.html
+index 933080b06..07550df7f 100644
+--- a/openstack_dashboard/dashboards/project/instances/templates/instances/_detail_overview.html
++++ b/openstack_dashboard/dashboards/project/instances/templates/instances/_detail_overview.html
+@@ -43,16 +43,6 @@
+       <dd>{{ instance.full_flavor.name }}</dd>
+       <dt>{% trans "Flavor ID" %}</dt>
+       <dd>{{ instance.full_flavor.id }}</dd>
+-      <dt>{% trans "RAM" %}</dt>
+-      <dd>{{ instance.full_flavor.ram|mb_float_format }}</dd>
+-      <dt>{% trans "VCPUs" %}</dt>
+-      <dd>{{ instance.full_flavor.vcpus }} {% trans "VCPU" %}</dd>
+-      <dt>{% trans "Disk" %}</dt>
+-      <dd>{{ instance.full_flavor.disk }}{% trans "GB" %}</dd>
+-      {% if instance.full_flavor.ephemeral %}
+-        <dt>{% trans "Ephemeral Disk" %}</dt>
+-        <dd>{{ instance.full_flavor.ephemeral }}{% trans "GB" %}</dd>
+-      {% endif %}
+     {% else %}
+       <dt>{% trans "Flavor" %}</dt>
+       <dd>{% trans "Not available" %}</dd>
+diff --git a/openstack_dashboard/usage/tables.py b/openstack_dashboard/usage/tables.py
+index 88e2cc22d..6e8a41805 100644
+--- a/openstack_dashboard/usage/tables.py
++++ b/openstack_dashboard/usage/tables.py
+@@ -95,6 +95,12 @@ class ProjectUsageTable(BaseUsageTable):
+         name = "project_usage"
+         hidden_title = False
+         verbose_name = _("Usage")
+-        columns = ("instance", "vcpus", "disk", "memory", "uptime")
++        columns = (
++            "instance", 
++            # "vcpus",
++            # "disk",
++            # "memory",
++            "uptime",
++        )
+         table_actions = (CSVSummary,)
+         multi_select = False
+diff --git a/openstack_dashboard/usage/views.py b/openstack_dashboard/usage/views.py
+index 745aebf91..23a6ece5a 100644
+--- a/openstack_dashboard/usage/views.py
++++ b/openstack_dashboard/usage/views.py
+@@ -65,8 +65,8 @@ class UsageView(tables.DataTableView):
+         # (Used key, Max key, Human Readable Name, text to display when
+         # describing the quota by default it is 'Used')
+         types = [("totalInstancesUsed", "maxTotalInstances", _("Instances")),
+-                 ("totalCoresUsed", "maxTotalCores", _("VCPUs")),
+-                 ("totalRAMUsed", "maxTotalRAMSize", _("RAM")),
++                 #("totalCoresUsed", "maxTotalCores", _("VCPUs")),
++                 #("totalRAMUsed", "maxTotalRAMSize", _("RAM")),
+                  ("totalFloatingIpsUsed", "maxTotalFloatingIps",
+                   _("Floating IPs"), _("Allocated")),
+                  ("totalSecurityGroupsUsed", "maxSecurityGroups",
+-- 
+2.15.0
+

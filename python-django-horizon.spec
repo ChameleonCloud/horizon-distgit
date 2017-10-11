@@ -5,7 +5,7 @@ Name:       python-django-horizon
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:      1
 Version:    11.0.4
-Release:    1%{?dist}
+Release:    1.1%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -21,6 +21,13 @@ Source4:    openstack-dashboard-httpd-logging.conf
 
 # logrotate config
 Source5:    python-django-horizon-logrotate.conf
+
+Patch00001: 0001-Update-instance-actions-to-show-only-supported-actio.patch
+Patch00002: 0002-Remove-disk-partition-from-rebuild-instance-form.patch
+Patch00003: 0003-Hide-stats-that-are-irrelevant-for-baremetal.patch
+Patch00004: 0004-Fix-link-to-serial-console-stylesheet.patch
+Patch00005: 0005-Enable-to-set-protocols-of-WebSocket-for-serial-cons.patch
+Patch00006: 0006-Use-specified-phrases-in-lieu-of-Used-for-limit-summ.patch
 
 
 #
@@ -437,6 +444,9 @@ systemctl daemon-reload >/dev/null 2>&1 || :
 #%{_datadir}/openstack-dashboard/openstack_dashboard/enabled/_99_customization.*
 
 %changelog
+* Wed Nov 15 2017 Pierre Riteau <priteau@uchicago.edu> 1:11.0.4-1.1
+- Add Chameleon patches
+
 * Wed Oct 04 2017 rdo-trunk <javier.pena@redhat.com> 1:11.0.4-1
 - Update to 11.0.4
 

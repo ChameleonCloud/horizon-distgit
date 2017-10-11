@@ -1,0 +1,38 @@
+From 3d7d8f1f4d22eb94ff0489c4ebe57016d2d19a08 Mon Sep 17 00:00:00 2001
+From: Pierre Riteau <priteau@uchicago.edu>
+Date: Tue, 10 Oct 2017 19:15:12 +0100
+Subject: [PATCH 4/6] Fix link to serial console stylesheet
+
+The serial_console.css stylesheet was renamed to serial_console.scss in
+commit 09706c6e3754c218b00dcaf210629aa6970dc80a, but the link
+referencing it in the serial console template was not updated. As a
+result the serial console is displayed with a proportional font.
+
+This commit updates the stylesheet link and adds a compress block to
+compile it from SCSS to CSS.
+
+Change-Id: Ic8abc970e76cb67c79c2335370c63e235a23eb5a
+Closes-Bug: #1714311
+---
+ .../project/instances/templates/instances/serial_console.html        | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/openstack_dashboard/dashboards/project/instances/templates/instances/serial_console.html b/openstack_dashboard/dashboards/project/instances/templates/instances/serial_console.html
+index a852da525..3d0ff25fe 100644
+--- a/openstack_dashboard/dashboards/project/instances/templates/instances/serial_console.html
++++ b/openstack_dashboard/dashboards/project/instances/templates/instances/serial_console.html
+@@ -5,7 +5,10 @@
+   <meta content='IE=edge' http-equiv='X-UA-Compatible' />
+   <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+   <title>{{instance_name}} ({{instance_id}})</title>
+-  <link rel="stylesheet" href="{{ STATIC_URL }}dashboard/scss/serial_console.css" type="text/css" media="screen">
++  {% load compress %}
++  {% compress css %}
++  <link rel="stylesheet" href="{{ STATIC_URL }}dashboard/scss/serial_console.scss" type="text/scss" media="screen" />
++  {% endcompress %}
+   <script src="{% url 'horizon:jsi18n' 'horizon' %}"></script>
+   <script src='{{ STATIC_URL }}horizon/lib/termjs/term.js'></script>
+   <script src="{{ STATIC_URL }}horizon/lib/jquery/jquery.js"></script>
+-- 
+2.15.0
+
