@@ -1,7 +1,7 @@
-From b8dd57df6a886ccbc93852627f51a517d4ff499f Mon Sep 17 00:00:00 2001
+From 091bb04c909fe1c222826f980222f668bff07fc2 Mon Sep 17 00:00:00 2001
 From: Matthew R Hanlon <mrhanlon@tacc.utexas.edu>
 Date: Fri, 3 Apr 2015 16:41:41 -0500
-Subject: [PATCH 2/6] Remove disk partition from rebuild instance form
+Subject: [PATCH 2/9] Remove disk partition from rebuild instance form
 
 ---
  .../dashboards/project/instances/forms.py          | 26 +++++++++++-----------

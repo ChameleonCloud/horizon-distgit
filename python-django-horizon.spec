@@ -5,7 +5,7 @@ Name:       python-django-horizon
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:      1
 Version:    11.0.4
-Release:    1.1%{?dist}
+Release:    1.2%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -24,11 +24,13 @@ Source5:    python-django-horizon-logrotate.conf
 
 Patch00001: 0001-Update-instance-actions-to-show-only-supported-actio.patch
 Patch00002: 0002-Remove-disk-partition-from-rebuild-instance-form.patch
-Patch00003: 0003-Hide-stats-that-are-irrelevant-for-baremetal.patch
-Patch00004: 0004-Fix-link-to-serial-console-stylesheet.patch
-Patch00005: 0005-Enable-to-set-protocols-of-WebSocket-for-serial-cons.patch
-Patch00006: 0006-Use-specified-phrases-in-lieu-of-Used-for-limit-summ.patch
-
+Patch00003: 0003-Add-custom-constraint-for-Blazar-reservations.patch
+Patch00004: 0004-Hide-stats-that-are-irrelevant-for-baremetal.patch
+Patch00005: 0005-Add-reservation-dropdown-to-Angular-launch-instance-.patch
+Patch00006: 0006-Port-reservation-changes-for-classic-forms.patch
+Patch00007: 0007-Hide-AZ-controls.patch
+Patch00008: 0008-Enable-to-set-protocols-of-WebSocket-for-serial-cons.patch
+Patch00009: 0009-Fix-link-to-serial-console-stylesheet.patch
 
 #
 # BuildArch needs to be located below patches in the spec file. Don't ask!
@@ -444,7 +446,7 @@ systemctl daemon-reload >/dev/null 2>&1 || :
 #%{_datadir}/openstack-dashboard/openstack_dashboard/enabled/_99_customization.*
 
 %changelog
-* Wed Nov 15 2017 Pierre Riteau <priteau@uchicago.edu> 1:11.0.4-1.1
+* Wed Nov 15 2017 Pierre Riteau <priteau@uchicago.edu> 1:11.0.4-1.2
 - Add Chameleon patches
 
 * Wed Oct 04 2017 rdo-trunk <javier.pena@redhat.com> 1:11.0.4-1

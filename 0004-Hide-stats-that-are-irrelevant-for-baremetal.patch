@@ -1,15 +1,50 @@
-From 7bba00d0943ea576bb6a80b24c4902cc6d31b2f9 Mon Sep 17 00:00:00 2001
+From b863d53aa373571a4140661d015ffc5006fbc53c Mon Sep 17 00:00:00 2001
 From: Nick Timkovich <npt@uchicago.edu>
 Date: Tue, 13 Jun 2017 17:14:11 -0500
-Subject: [PATCH 3/6] Hide stats that are irrelevant for baremetal
+Subject: [PATCH 4/9] Hide stats that are irrelevant for baremetal
 
 ---
- horizon/templates/horizon/common/_usage_summary.html           |  2 ++
- .../instances/templates/instances/_detail_overview.html        | 10 ----------
- openstack_dashboard/usage/tables.py                            |  8 +++++++-
- openstack_dashboard/usage/views.py                             |  4 ++--
- 4 files changed, 11 insertions(+), 13 deletions(-)
+ horizon/templates/horizon/common/_limit_summary.html     | 16 ++++++++--------
+ horizon/templates/horizon/common/_usage_summary.html     |  2 ++
+ .../instances/templates/instances/_detail_overview.html  | 10 ----------
+ openstack_dashboard/usage/tables.py                      |  8 +++++++-
+ openstack_dashboard/usage/views.py                       |  6 +++---
+ 5 files changed, 20 insertions(+), 22 deletions(-)
 
+diff --git a/horizon/templates/horizon/common/_limit_summary.html b/horizon/templates/horizon/common/_limit_summary.html
+index b58ba8b4c..984ec8271 100644
+--- a/horizon/templates/horizon/common/_limit_summary.html
++++ b/horizon/templates/horizon/common/_limit_summary.html
+@@ -13,21 +13,21 @@
+           <div class="quota_subtitle">
+             {% if quota.max|quotainf != '-1' %}
+               {% if quota.type == "totalRAMUsed" %}
+-                {% blocktrans trimmed with used=quota.used|mb_float_format available=quota.max|quotainf|mb_float_format %}
+-                  Used <span> {{ used }} </span>of<span> {{ available }} </span>
++                {% blocktrans trimmed with  usedphrase=quota.usedphrase|default:"Used" used=quota.used|mb_float_format available=quota.max|quotainf|mb_float_format %}
++                  {{ usedphrase }} <span> {{ used }} </span>of<span> {{ available }} </span>
+                 {% endblocktrans %}
+               {% elif quota.type == "totalGigabytesUsed" %}
+-                {% blocktrans trimmed with used=quota.used|diskgbformat available=quota.max|quotainf|diskgbformat %}
+-                  Used <span> {{ used }} </span>of<span> {{ available }} </span>
++                {% blocktrans trimmed with usedphrase=quota.usedphrase|default:"Used" used=quota.used|diskgbformat available=quota.max|quotainf|diskgbformat %}
++                  {{ usedphrase }} <span> {{ used }} </span>of<span> {{ available }} </span>
+                 {% endblocktrans %}
+               {% else %}
+-                {% blocktrans trimmed with used=quota.used|intcomma available=quota.max|quotainf|intcomma %}
+-                  Used <span> {{ used }} </span>of<span> {{ available }} </span>
++                {% blocktrans trimmed with usedphrase=quota.usedphrase|default:"Used" used=quota.used|intcomma available=quota.max|quotainf|intcomma %}
++                  {{ usedphrase }} <span> {{ used }} </span>of<span> {{ available }} </span>
+                 {% endblocktrans %}
+               {% endif %}
+             {% else %}
+-              {% blocktrans trimmed with used=quota.used|intcomma %}
+-                Used <span> {{ used }} </span>(No Limit)
++              {% blocktrans trimmed with usedphrase=quota.usedphrase|default:"Used" used=quota.used|intcomma %}
++	      {{ usedphrase }} <span> {{ used }} </span>(No Limit)
+               {% endblocktrans %}
+             {% endif %}
+           </div>
 diff --git a/horizon/templates/horizon/common/_usage_summary.html b/horizon/templates/horizon/common/_usage_summary.html
 index 8a50d70eb..871155250 100644
 --- a/horizon/templates/horizon/common/_usage_summary.html
@@ -66,7 +101,7 @@ index 88e2cc22d..6e8a41805 100644
          table_actions = (CSVSummary,)
          multi_select = False
 diff --git a/openstack_dashboard/usage/views.py b/openstack_dashboard/usage/views.py
-index 745aebf91..23a6ece5a 100644
+index 745aebf91..27e80073d 100644
 --- a/openstack_dashboard/usage/views.py
 +++ b/openstack_dashboard/usage/views.py
 @@ -65,8 +65,8 @@ class UsageView(tables.DataTableView):
@@ -80,6 +115,15 @@ index 745aebf91..23a6ece5a 100644
                   ("totalFloatingIpsUsed", "maxTotalFloatingIps",
                    _("Floating IPs"), _("Allocated")),
                   ("totalSecurityGroupsUsed", "maxSecurityGroups",
+@@ -88,7 +88,7 @@ class UsageView(tables.DataTableView):
+                     'name': t[2],
+                     'used': self.usage.limits[t[0]],
+                     'max': self.usage.limits[t[1]],
+-                    'text': text
++                    'usedphrase': text
+                 })
+ 
+         try:
 -- 
 2.15.0
 

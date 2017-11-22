@@ -1,0 +1,174 @@
+From 3e98d6c9a09493c27d72aa9af2baff9669f4460e Mon Sep 17 00:00:00 2001
+From: Nick Timkovich <npt@uchicago.edu>
+Date: Mon, 9 Oct 2017 17:50:32 -0500
+Subject: [PATCH 6/9] Port reservation changes for classic forms
+
+---
+ .../templates/instances/_flavors_and_quotas.html   |  2 +
+ .../project/instances/workflows/create_instance.py | 54 +++++++++++++++++++++-
+ .../workflow/launch-instance/details/details.html  |  3 +-
+ .../launch-instance-model.service.js               |  4 +-
+ 4 files changed, 59 insertions(+), 4 deletions(-)
+
+diff --git a/openstack_dashboard/dashboards/project/instances/templates/instances/_flavors_and_quotas.html b/openstack_dashboard/dashboards/project/instances/templates/instances/_flavors_and_quotas.html
+index 840524a53..a15cf7bab 100644
+--- a/openstack_dashboard/dashboards/project/instances/templates/instances/_flavors_and_quotas.html
++++ b/openstack_dashboard/dashboards/project/instances/templates/instances/_flavors_and_quotas.html
+@@ -3,6 +3,7 @@
+ {% block help_message %}
+ {% endblock %}
+ 
++<!--
+ <h4>{% trans "Flavor Details" %}</h4>
+ <table class="flavor_table table table-striped table-fixed">
+   <tbody>
+@@ -72,6 +73,7 @@
+   {{ endminifyspace }}
+ 
+ </div>
++-->
+ 
+ 
+ <script type="text/javascript" charset="utf-8">
+diff --git a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
+index 8f06fd152..9c56823cd 100644
+--- a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
++++ b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
+@@ -23,7 +23,9 @@ import operator
+ from oslo_utils import units
+ import six
+ 
++from django.core.urlresolvers import reverse
+ from django.template.defaultfilters import filesizeformat  # noqa
++from django.utils.safestring import mark_safe
+ from django.utils.text import normalize_newlines  # noqa
+ from django.utils.translation import ugettext_lazy as _
+ from django.views.decorators.debug import sensitive_variables  # noqa
+@@ -46,8 +48,10 @@ from openstack_dashboard.dashboards.project.images \
+ from openstack_dashboard.dashboards.project.instances \
+     import utils as instance_utils
+ 
++from blazar_dashboard.api import client as blazar
+ 
+ LOG = logging.getLogger(__name__)
++NO_RESERV = ''
+ 
+ 
+ class SelectProjectUserAction(workflows.Action):
+@@ -81,6 +85,13 @@ class SetInstanceDetailsAction(workflows.Action):
+     availability_zone = forms.ThemableChoiceField(label=_("Availability Zone"),
+                                                   required=False)
+ 
++    reservation_id = forms.ThemableChoiceField(
++        label=_("Reservation"),
++        help_text=_("Choose a reservation to launch this instance against. "
++                    "Only active reservations are displayed as options."),
++        required=False,
++    )
++
+     name = forms.CharField(label=_("Instance Name"),
+                            max_length=255)
+ 
+@@ -358,6 +369,19 @@ class SetInstanceDetailsAction(workflows.Action):
+         if check_method:
+             check_method(cleaned_data)
+ 
++    def clean_reservation_id(self):
++        reservation_id = self.cleaned_data.get('reservation_id')
++        if reservation_id == NO_RESERV:
++            raise forms.ValidationError(
++                mark_safe(_( # assuming translations are safe
++                    'An active <a href="%(lease_url)s">reservation</a> is required '
++                    'to launch instances.'
++                ) % {
++                    'lease_url': reverse('horizon:project:leases:index'),
++                }),
++            )
++        return reservation_id
++
+     def clean(self):
+         cleaned_data = super(SetInstanceDetailsAction, self).clean()
+ 
+@@ -369,6 +393,31 @@ class SetInstanceDetailsAction(workflows.Action):
+     def populate_flavor_choices(self, request, context):
+         return instance_utils.flavor_field_data(request, False)
+ 
++    def populate_reservation_id_choices(self, request, context):
++        leases = blazar.lease_list(request)
++        reservation_ids = []
++        if leases:
++            for lease in leases:
++                for reservation in lease.reservations:
++                    if reservation['status'] == 'active':
++                        label = '%s (%s)' % (lease['name'], reservation['id'])
++                        reservation_ids.append((reservation['id'], label))
++
++        if not reservation_ids:
++            reservation_ids.insert(0, (NO_RESERV, _("No reservations active")))
++            msg = mark_safe(_( # assuming translations are safe
++                'An active <a href="%(lease_url)s">reservation</a> is required '
++                'to launch instances.'
++            ) % {
++                'lease_url': reverse('horizon:project:leases:index'),
++            })
++            # injecting preemptive error causes multiple spurious errors to
++            # be emitted from a form that might just have one.
++            # self.errors['reservation_id'] = self.error_class([msg])
++            # self.add_action_error(msg)
++
++        return reservation_ids
++
+     def populate_availability_zone_choices(self, request, context):
+         try:
+             zones = api.nova.availability_zone_list(request)
+@@ -502,7 +551,7 @@ class SetInstanceDetailsAction(workflows.Action):
+ class SetInstanceDetails(workflows.Step):
+     action_class = SetInstanceDetailsAction
+     depends_on = ("project_id", "user_id")
+-    contributes = ("source_type", "source_id",
++    contributes = ("source_type", "source_id", "reservation_id",
+                    "availability_zone", "name", "count", "flavor",
+                    "device_name",  # Can be None for an image.
+                    "vol_delete_on_instance_delete")
+@@ -975,6 +1024,9 @@ class LaunchInstance(workflows.Workflow):
+         server_group = context.get('server_group', None)
+         if server_group:
+             scheduler_hints['group'] = server_group
++        reservation_id = context.get('reservation_id', None)
++        if reservation_id:
++            scheduler_hints['reservation'] = reservation_id
+ 
+         port_profiles_supported = api.neutron.is_port_profiles_supported()
+ 
+diff --git a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/details/details.html b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/details/details.html
+index 288e43a45..696bb1423 100644
+--- a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/details/details.html
++++ b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/details/details.html
+@@ -44,7 +44,8 @@
+                 class="form-control"
+                 id="reservation"
+                 ng-options="reserv.value as reserv.label for reserv in model.reservations"
+-                ng-model="model.newInstanceSpec.reservation">
++                ng-model="model.newInstanceSpec.reservation"
++                required>
+         </select>
+       </div>
+ 
+diff --git a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/launch-instance-model.service.js b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/launch-instance-model.service.js
+index 41ac6c9f5..1b7cdaf96 100644
+--- a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/launch-instance-model.service.js
++++ b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/launch-instance-model.service.js
+@@ -382,8 +382,8 @@
+       if (model.reservations.length < 1) {
+         // TODO: refuse to create instances/display warning
+       } else {
+-        // force selection of the first one to remove the empty selection
+-        model.newInstanceSpec.reservation = model.reservations[0].value;
++        // force selection of the first one?
++        // model.newInstanceSpec.reservation = model.reservations[0].value;
+       }
+     }
+ 
+-- 
+2.15.0
+

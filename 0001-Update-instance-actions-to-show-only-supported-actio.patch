@@ -1,7 +1,7 @@
-From 8ba19822ba966972a847beec3704268fa18e363c Mon Sep 17 00:00:00 2001
+From ae2618c214ff3b03dac556928613ca1d25884651 Mon Sep 17 00:00:00 2001
 From: Pierre Riteau <priteau@uchicago.edu>
 Date: Mon, 17 Jul 2017 15:12:33 +0100
-Subject: [PATCH 1/6] Update instance actions to show only supported actions
+Subject: [PATCH 1/9] Update instance actions to show only supported actions
 
 ---
  .../dashboards/project/instances/tables.py              | 17 ++++++++---------

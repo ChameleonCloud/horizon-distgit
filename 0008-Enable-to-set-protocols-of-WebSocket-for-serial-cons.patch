@@ -1,7 +1,7 @@
-From dc901ccdab404ee65e0209f024f6f42374b85594 Mon Sep 17 00:00:00 2001
+From ed5cf3b61fa0f245342622dd137fd13f93038356 Mon Sep 17 00:00:00 2001
 From: Shu Muto <shu-mutou@rf.jp.nec.com>
 Date: Thu, 15 Jun 2017 18:06:47 +0900
-Subject: [PATCH 5/6] Enable to set protocols of WebSocket for serial console
+Subject: [PATCH 8/9] Enable to set protocols of WebSocket for serial console
 
 This patch enables to set protocols of WebSocket for serial console.
 Also, this enables to use serial console not only from instance
@@ -16,7 +16,7 @@ Closes-Bug: #1698092
  .../static/js/angular/directives/serialConsole.js      | 18 ++++++++----------
  .../instances => templates}/serial_console.html        |  4 ++--
  3 files changed, 14 insertions(+), 16 deletions(-)
- rename openstack_dashboard/{dashboards/project/instances/templates/instances => templates}/serial_console.html (86%)
+ rename openstack_dashboard/{dashboards/project/instances/templates/instances => templates}/serial_console.html (85%)
 
 diff --git a/openstack_dashboard/dashboards/project/instances/views.py b/openstack_dashboard/dashboards/project/instances/views.py
 index 844d6075f..044804a72 100644
@@ -100,10 +100,10 @@ index e886aebab..8101e7928 100644
          var socket = new WebSocket(connection, protocols);
  
 diff --git a/openstack_dashboard/dashboards/project/instances/templates/instances/serial_console.html b/openstack_dashboard/templates/serial_console.html
-similarity index 86%
+similarity index 85%
 rename from openstack_dashboard/dashboards/project/instances/templates/instances/serial_console.html
 rename to openstack_dashboard/templates/serial_console.html
-index 3d0ff25fe..d1434e7b4 100644
+index a852da525..13c1fc515 100644
 --- a/openstack_dashboard/dashboards/project/instances/templates/instances/serial_console.html
 +++ b/openstack_dashboard/templates/serial_console.html
 @@ -4,7 +4,7 @@
@@ -112,10 +112,10 @@ index 3d0ff25fe..d1434e7b4 100644
    <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
 -  <title>{{instance_name}} ({{instance_id}})</title>
 +  <title>{{page_title}}</title>
-   {% load compress %}
-   {% compress css %}
-   <link rel="stylesheet" href="{{ STATIC_URL }}dashboard/scss/serial_console.scss" type="text/scss" media="screen" />
-@@ -20,7 +20,7 @@
+   <link rel="stylesheet" href="{{ STATIC_URL }}dashboard/scss/serial_console.css" type="text/css" media="screen">
+   <script src="{% url 'horizon:jsi18n' 'horizon' %}"></script>
+   <script src='{{ STATIC_URL }}horizon/lib/termjs/term.js'></script>
+@@ -17,7 +17,7 @@
      {% if error_message %}
          {{ error_message }}
      {% else %}
