@@ -1,4 +1,4 @@
-From 6df6e9aebc0135c36a4a410515701b45a9bd7755 Mon Sep 17 00:00:00 2001
+From c14db10d20bb78d63688d2880284c7f7b336fb06 Mon Sep 17 00:00:00 2001
 From: Matthew R Hanlon <mrhanlon@tacc.utexas.edu>
 Date: Wed, 3 Aug 2016 14:02:58 -0500
 Subject: [PATCH 3/9] Add custom constraint for Blazar reservations
@@ -8,14 +8,14 @@ Subject: [PATCH 3/9] Add custom constraint for Blazar reservations
  1 file changed, 4 insertions(+)
 
 diff --git a/openstack_dashboard/dashboards/project/stacks/forms.py b/openstack_dashboard/dashboards/project/stacks/forms.py
-index 4ae684f48..94e86b4c3 100644
+index 4ae684f48..ad5a3ad86 100644
 --- a/openstack_dashboard/dashboards/project/stacks/forms.py
 +++ b/openstack_dashboard/dashboards/project/stacks/forms.py
 @@ -31,6 +31,8 @@ from openstack_dashboard.dashboards.project.images \
      import utils as image_utils
  from openstack_dashboard.dashboards.project.instances \
      import utils as instance_utils
-+from blazardashboard.dashboards.project.leases \
++from blazar_dashboard.content.leases \
 +    import utils as blazar_utils
  
  

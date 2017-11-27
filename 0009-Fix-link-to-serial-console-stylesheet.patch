@@ -1,4 +1,4 @@
-From 14a309f41d15d9f875218fa4f9d6505eb3e75d5a Mon Sep 17 00:00:00 2001
+From d496aeec8ee1504d5c9cd8e6291eac129354c139 Mon Sep 17 00:00:00 2001
 From: Pierre Riteau <priteau@uchicago.edu>
 Date: Thu, 31 Aug 2017 18:04:42 +0100
 Subject: [PATCH 9/9] Fix link to serial console stylesheet

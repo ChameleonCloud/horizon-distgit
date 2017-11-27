@@ -1,4 +1,4 @@
-From ed5cf3b61fa0f245342622dd137fd13f93038356 Mon Sep 17 00:00:00 2001
+From f6f7bd40c1a0691abacaa19d94d6f8eabebf1aaa Mon Sep 17 00:00:00 2001
 From: Shu Muto <shu-mutou@rf.jp.nec.com>
 Date: Thu, 15 Jun 2017 18:06:47 +0900
 Subject: [PATCH 8/9] Enable to set protocols of WebSocket for serial console

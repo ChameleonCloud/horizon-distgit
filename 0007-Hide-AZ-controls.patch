@@ -1,4 +1,4 @@
-From 6bb4b13f9ea52f466f2090da2a9b54891cde1f7f Mon Sep 17 00:00:00 2001
+From e1c2d62dfa33a184788f00f6359ee74a3a5835bd Mon Sep 17 00:00:00 2001
 From: Nick Timkovich <npt@uchicago.edu>
 Date: Wed, 11 Oct 2017 12:39:29 -0500
 Subject: [PATCH 7/9] Hide AZ controls

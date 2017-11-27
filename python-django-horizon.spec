@@ -5,7 +5,7 @@ Name:       python-django-horizon
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:      1
 Version:    11.0.4
-Release:    1.2%{?dist}
+Release:    1.3%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -446,7 +446,7 @@ systemctl daemon-reload >/dev/null 2>&1 || :
 #%{_datadir}/openstack-dashboard/openstack_dashboard/enabled/_99_customization.*
 
 %changelog
-* Wed Nov 15 2017 Pierre Riteau <priteau@uchicago.edu> 1:11.0.4-1.2
+* Wed Nov 15 2017 Pierre Riteau <priteau@uchicago.edu> 1:11.0.4-1.3
 - Add Chameleon patches
 
 * Wed Oct 04 2017 rdo-trunk <javier.pena@redhat.com> 1:11.0.4-1
