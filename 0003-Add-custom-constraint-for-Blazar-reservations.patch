@@ -1,7 +1,7 @@
 From c14db10d20bb78d63688d2880284c7f7b336fb06 Mon Sep 17 00:00:00 2001
 From: Matthew R Hanlon <mrhanlon@tacc.utexas.edu>
 Date: Wed, 3 Aug 2016 14:02:58 -0500
-Subject: [PATCH 3/9] Add custom constraint for Blazar reservations
+Subject: [PATCH 03/10] Add custom constraint for Blazar reservations
 
 ---
  openstack_dashboard/dashboards/project/stacks/forms.py | 4 ++++

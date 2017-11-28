@@ -1,7 +1,7 @@
 From cf8a816ef65bd3dae1314886542ccbd511799101 Mon Sep 17 00:00:00 2001
 From: Nick Timkovich <npt@uchicago.edu>
 Date: Mon, 9 Oct 2017 17:50:32 -0500
-Subject: [PATCH 6/9] Port reservation changes for classic forms
+Subject: [PATCH 06/10] Port reservation changes for classic forms
 
 ---
  .../templates/instances/_flavors_and_quotas.html   |  2 +

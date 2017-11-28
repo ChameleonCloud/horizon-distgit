@@ -31,6 +31,7 @@ Patch00006: 0006-Port-reservation-changes-for-classic-forms.patch
 Patch00007: 0007-Hide-AZ-controls.patch
 Patch00008: 0008-Enable-to-set-protocols-of-WebSocket-for-serial-cons.patch
 Patch00009: 0009-Fix-link-to-serial-console-stylesheet.patch
+Patch00010: 0010-Fix-the-v2.0-Keystone-URL.patch
 
 #
 # BuildArch needs to be located below patches in the spec file. Don't ask!
