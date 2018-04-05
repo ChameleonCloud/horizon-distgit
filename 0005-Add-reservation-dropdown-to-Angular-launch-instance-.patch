@@ -1,15 +1,15 @@
 From 94b66a364ec3064edb72f19e08c0ea55ee009756 Mon Sep 17 00:00:00 2001
 From: Nick Timkovich <npt@uchicago.edu>
 Date: Mon, 9 Oct 2017 14:35:41 -0500
-Subject: [PATCH 05/10] Add reservation dropdown to Angular launch-instance
+Subject: [PATCH 05/11] Add reservation dropdown to Angular launch-instance
  form
 
 ---
- openstack_dashboard/api/rest/__init__.py           |  1 +
- openstack_dashboard/api/rest/blazar.py             | 37 ++++++++++++++++
- .../workflow/launch-instance/details/details.html  | 16 +++++++
- .../launch-instance-model.service.js               | 37 ++++++++++++++++
- .../core/openstack-service-api/blazar.service.js   | 50 ++++++++++++++++++++++
+ openstack_dashboard/api/rest/__init__.py      |  1 +
+ openstack_dashboard/api/rest/blazar.py        | 37 ++++++++++++++
+ .../launch-instance/details/details.html      | 16 ++++++
+ .../launch-instance-model.service.js          | 37 ++++++++++++++
+ .../openstack-service-api/blazar.service.js   | 50 +++++++++++++++++++
  5 files changed, 141 insertions(+)
  create mode 100644 openstack_dashboard/api/rest/blazar.py
  create mode 100644 openstack_dashboard/static/app/core/openstack-service-api/blazar.service.js
@@ -236,5 +236,5 @@ index 000000000..455b0b00a
 +
 +}());
 -- 
-2.15.0
+2.17.0
 

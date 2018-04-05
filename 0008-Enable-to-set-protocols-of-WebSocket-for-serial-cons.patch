@@ -1,7 +1,7 @@
 From f6f7bd40c1a0691abacaa19d94d6f8eabebf1aaa Mon Sep 17 00:00:00 2001
 From: Shu Muto <shu-mutou@rf.jp.nec.com>
 Date: Thu, 15 Jun 2017 18:06:47 +0900
-Subject: [PATCH 08/10] Enable to set protocols of WebSocket for serial console
+Subject: [PATCH 08/11] Enable to set protocols of WebSocket for serial console
 
 This patch enables to set protocols of WebSocket for serial console.
 Also, this enables to use serial console not only from instance
@@ -12,9 +12,9 @@ Change-Id: Ib0df9ddfc74f98bfea75abce3b5d5479e3cd47bd
 Needed-By: I41f236f2762613e56748bb05eb7ce0e4c26158d2
 Closes-Bug: #1698092
 ---
- .../dashboards/project/instances/views.py              |  8 ++++----
- .../static/js/angular/directives/serialConsole.js      | 18 ++++++++----------
- .../instances => templates}/serial_console.html        |  4 ++--
+ .../dashboards/project/instances/views.py      |  8 ++++----
+ .../js/angular/directives/serialConsole.js     | 18 ++++++++----------
+ .../serial_console.html                        |  4 ++--
  3 files changed, 14 insertions(+), 16 deletions(-)
  rename openstack_dashboard/{dashboards/project/instances/templates/instances => templates}/serial_console.html (85%)
 
@@ -125,5 +125,5 @@ index a852da525..13c1fc515 100644
  
  </body>
 -- 
-2.15.0
+2.17.0
 

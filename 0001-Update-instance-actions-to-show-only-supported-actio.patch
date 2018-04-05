@@ -1,10 +1,10 @@
 From ae2618c214ff3b03dac556928613ca1d25884651 Mon Sep 17 00:00:00 2001
 From: Pierre Riteau <priteau@uchicago.edu>
 Date: Mon, 17 Jul 2017 15:12:33 +0100
-Subject: [PATCH 01/10] Update instance actions to show only supported actions
+Subject: [PATCH 01/11] Update instance actions to show only supported actions
 
 ---
- .../dashboards/project/instances/tables.py              | 17 ++++++++---------
+ .../dashboards/project/instances/tables.py      | 17 ++++++++---------
  1 file changed, 8 insertions(+), 9 deletions(-)
 
 diff --git a/openstack_dashboard/dashboards/project/instances/tables.py b/openstack_dashboard/dashboards/project/instances/tables.py
@@ -34,5 +34,5 @@ index 925983cd1..409636b7d 100644
 +                       SoftRebootInstance, RebootInstance, StopInstance,
 +                       RebuildInstance, DeleteInstance)
 -- 
-2.15.0
+2.17.0
 

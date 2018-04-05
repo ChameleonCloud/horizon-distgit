@@ -1,11 +1,11 @@
 From e1c2d62dfa33a184788f00f6359ee74a3a5835bd Mon Sep 17 00:00:00 2001
 From: Nick Timkovich <npt@uchicago.edu>
 Date: Wed, 11 Oct 2017 12:39:29 -0500
-Subject: [PATCH 07/10] Hide AZ controls
+Subject: [PATCH 07/11] Hide AZ controls
 
 ---
- .../dashboards/project/instances/workflows/create_instance.py          | 3 +++
- .../dashboard/project/workflow/launch-instance/details/details.html    | 2 +-
+ .../dashboards/project/instances/workflows/create_instance.py  | 3 +++
+ .../project/workflow/launch-instance/details/details.html      | 2 +-
  2 files changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
@@ -43,5 +43,5 @@ index 696bb1423..6dbc10739 100644
          <div class="alert alert-warning"
               ng-if="model.availabilityZones.length === 0"
 -- 
-2.15.0
+2.17.0
 

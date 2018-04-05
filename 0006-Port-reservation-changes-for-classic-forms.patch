@@ -1,13 +1,13 @@
 From cf8a816ef65bd3dae1314886542ccbd511799101 Mon Sep 17 00:00:00 2001
 From: Nick Timkovich <npt@uchicago.edu>
 Date: Mon, 9 Oct 2017 17:50:32 -0500
-Subject: [PATCH 06/10] Port reservation changes for classic forms
+Subject: [PATCH 06/11] Port reservation changes for classic forms
 
 ---
- .../templates/instances/_flavors_and_quotas.html   |  2 +
- .../project/instances/workflows/create_instance.py | 54 +++++++++++++++++++++-
- .../workflow/launch-instance/details/details.html  |  3 +-
- .../launch-instance-model.service.js               |  4 +-
+ .../instances/_flavors_and_quotas.html        |  2 +
+ .../instances/workflows/create_instance.py    | 54 ++++++++++++++++++-
+ .../launch-instance/details/details.html      |  3 +-
+ .../launch-instance-model.service.js          |  4 +-
  4 files changed, 59 insertions(+), 4 deletions(-)
 
 diff --git a/openstack_dashboard/dashboards/project/instances/templates/instances/_flavors_and_quotas.html b/openstack_dashboard/dashboards/project/instances/templates/instances/_flavors_and_quotas.html
@@ -170,5 +170,5 @@ index 41ac6c9f5..1b7cdaf96 100644
      }
  
 -- 
-2.15.0
+2.17.0
 

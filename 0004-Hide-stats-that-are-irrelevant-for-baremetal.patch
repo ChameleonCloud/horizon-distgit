@@ -1,14 +1,14 @@
 From 26fa935cd61d9b4c68577441ce4b164d217b0d1f Mon Sep 17 00:00:00 2001
 From: Nick Timkovich <npt@uchicago.edu>
 Date: Tue, 13 Jun 2017 17:14:11 -0500
-Subject: [PATCH 04/10] Hide stats that are irrelevant for baremetal
+Subject: [PATCH 04/11] Hide stats that are irrelevant for baremetal
 
 ---
- horizon/templates/horizon/common/_limit_summary.html     | 16 ++++++++--------
- horizon/templates/horizon/common/_usage_summary.html     |  2 ++
- .../instances/templates/instances/_detail_overview.html  | 10 ----------
- openstack_dashboard/usage/tables.py                      |  8 +++++++-
- openstack_dashboard/usage/views.py                       |  6 +++---
+ .../templates/horizon/common/_limit_summary.html | 16 ++++++++--------
+ .../templates/horizon/common/_usage_summary.html |  2 ++
+ .../templates/instances/_detail_overview.html    | 10 ----------
+ openstack_dashboard/usage/tables.py              |  8 +++++++-
+ openstack_dashboard/usage/views.py               |  6 +++---
  5 files changed, 20 insertions(+), 22 deletions(-)
 
 diff --git a/horizon/templates/horizon/common/_limit_summary.html b/horizon/templates/horizon/common/_limit_summary.html
@@ -125,5 +125,5 @@ index 745aebf91..27e80073d 100644
  
          try:
 -- 
-2.15.0
+2.17.0
 
