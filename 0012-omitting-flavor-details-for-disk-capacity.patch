@@ -1,0 +1,56 @@
+From 4fb32a5e58cea288c47fe56287c00056042ae87f Mon Sep 17 00:00:00 2001
+From: Alex Rocha <rochaa@tacc.utexas.edu>
+Date: Mon, 9 Apr 2018 17:26:54 -0500
+Subject: [PATCH 12/12] omitting flavor details for disk capacity
+
+---
+ .../workflow/launch-instance/flavor/flavor.html    | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.html b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.html
+index 222e3a599..ec9bad42c 100644
+--- a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.html
++++ b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.html
+@@ -162,7 +162,7 @@ limitations under the License.
+                 title="{$ ::expandDetailsText $}"></span>
+         </td>
+         <td class="rsp-p1 word-break">{$ ::item.name $}</td>
+-        <td class="rsp-p1">
++        <td class="rsp-p1" colspan="5">
+           <div style="max-width: 200px;">
+             Hardware details for your instance can be found in our <a target='blank' href='https://www.chameleoncloud.org/hardware/'>resource discovery interface.</a>
+           </div>
+@@ -173,24 +173,24 @@ limitations under the License.
+           popover-trigger="mouseenter mouseleave"/>
+           {$ ::item.vcpus $} -->
+         </td>
+-        <td class="rsp-p1">--
+-          <!--<span class="invalid fa fa-exclamation-triangle"
++        <!--<td class="rsp-p1">-
++          <span class="invalid fa fa-exclamation-triangle"
+             ng-show="item.errors.ram"
+             popover="{$ item.errors.ram $}"
+             popover-placement="top" popover-append-to-body="true"
+             popover-trigger="mouseenter mouseleave"/>
+-          {$ ::item.ram | mb $} -->
++          {$ ::item.ram | mb $}
+         </td>
+         <td class="rsp-p1">{$ ::item.totalDisk | gb $}</td>
+         <td class="rsp-p2">--
+-          <!-- <span class="invalid fa fa-exclamation-triangle"
++          <span class="invalid fa fa-exclamation-triangle"
+             ng-show="item.errors.disk"
+             popover="{$ item.errors.disk $}"
+             popover-placement="top" popover-append-to-body="true"
+             popover-trigger="mouseenter mouseleave"/>
+-          {$ ::item.rootDisk | gb $} -->
++          {$ ::item.rootDisk | gb $}
+         </td>
+-        <td class="rsp-p2">{$ ::item.ephemeralDisk | gb $}</td>
++        <td class="rsp-p2">{$ ::item.ephemeralDisk | gb $}</td> -->
+         <td class="rsp-p1">{$ ::item.isPublic | yesno $}</td>
+         <td class="action-col">
+           <action-list button-tooltip="item.disabledMessage"
+-- 
+2.17.0
+
