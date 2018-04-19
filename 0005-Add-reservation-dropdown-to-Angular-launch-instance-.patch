@@ -1,7 +1,7 @@
 From 94b66a364ec3064edb72f19e08c0ea55ee009756 Mon Sep 17 00:00:00 2001
 From: Nick Timkovich <npt@uchicago.edu>
 Date: Mon, 9 Oct 2017 14:35:41 -0500
-Subject: [PATCH 05/12] Add reservation dropdown to Angular launch-instance
+Subject: [PATCH 05/13] Add reservation dropdown to Angular launch-instance
  form
 
 ---
