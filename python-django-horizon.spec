@@ -5,7 +5,7 @@ Name:       python-django-horizon
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:      1
 Version:    11.0.4
-Release:    1.6%{?dist}
+Release:    1.7%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -35,6 +35,7 @@ Patch00010: 0010-Fix-the-v2.0-Keystone-URL.patch
 Patch00011: 0011-Removing-flavor-details-from-instance-launch-panel.patch
 Patch00012: 0012-omitting-flavor-details-for-disk-capacity.patch
 Patch00013: 0013-Ensuring-all-flavor-details-remain-hidden-after-an-i.patch
+Patch00014: 0014-fixing-image-name-spacing.patch
 
 #
 # BuildArch needs to be located below patches in the spec file. Don't ask!
@@ -450,7 +451,7 @@ systemctl daemon-reload >/dev/null 2>&1 || :
 #%{_datadir}/openstack-dashboard/openstack_dashboard/enabled/_99_customization.*
 
 %changelog
-* Thu Apr 19 2018 Pierre Riteau <priteau@uchicago.edu> 1:11.0.4-1.6
+* Fri Apr 20 2018 Pierre Riteau <priteau@uchicago.edu> 1:11.0.4-1.7
 - Add Chameleon patches
 
 * Wed Oct 04 2017 rdo-trunk <javier.pena@redhat.com> 1:11.0.4-1

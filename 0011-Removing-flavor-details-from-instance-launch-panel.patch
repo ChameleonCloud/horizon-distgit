@@ -1,7 +1,7 @@
 From f22fce421d65efca26afd44a38528753b766e0d6 Mon Sep 17 00:00:00 2001
 From: Alex Rocha <rochaa@tacc.utexas.edu>
 Date: Fri, 23 Mar 2018 16:26:06 -0500
-Subject: [PATCH 11/13] Removing flavor details from instance launch panel
+Subject: [PATCH 11/14] Removing flavor details from instance launch panel
 
 ---
  .../templates/instances/_instance_flavor.html |  5 +++

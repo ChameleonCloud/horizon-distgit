@@ -1,0 +1,34 @@
+From d92ec2478f1b3eca86d8e8a0bcbd6a7d99e4753b Mon Sep 17 00:00:00 2001
+From: Alex Rocha <rochaa@tacc.utexas.edu>
+Date: Thu, 19 Apr 2018 15:31:03 -0500
+Subject: [PATCH 14/14] fixing image name spacing
+
+---
+ .../project/workflow/launch-instance/flavor/flavor.html       | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.html b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.html
+index 01bdb4e01..d8a14f2ea 100644
+--- a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.html
++++ b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.html
+@@ -50,7 +50,7 @@ limitations under the License.
+           <span class="fa fa-chevron-right" hz-expand-detail
+                 title="{$ ::expandDetailsText $}"></span>
+         </td>
+-        <td class="rsp-p1 word-break">{$ ::item.name $}</td>
++        <td class="rsp-p1 word-break" style="width:15%">{$ ::item.name $}</td>
+         <td class="rsp-p1" colspan="9">
+           <div style="width: auto;">
+             Hardware details for your instance can be found in our <a target='blank' href='https://www.chameleoncloud.org/hardware/'>resource discovery interface.</a>
+@@ -165,7 +165,7 @@ limitations under the License.
+           <span class="fa fa-chevron-right" hz-expand-detail
+                 title="{$ ::expandDetailsText $}"></span>
+         </td>
+-        <td class="rsp-p1 word-break">{$ ::item.name $}</td>
++        <td class="rsp-p1 word-break" style="width:15%">{$ ::item.name $}</td>
+         <td class="rsp-p1" colspan="5">
+           <div style="width: auto;">
+             Hardware details for your instance can be found in our <a target='blank' href='https://www.chameleoncloud.org/hardware/'>resource discovery interface.</a>
+-- 
+2.17.0
+

@@ -1,7 +1,7 @@
 From 26fa935cd61d9b4c68577441ce4b164d217b0d1f Mon Sep 17 00:00:00 2001
 From: Nick Timkovich <npt@uchicago.edu>
 Date: Tue, 13 Jun 2017 17:14:11 -0500
-Subject: [PATCH 04/13] Hide stats that are irrelevant for baremetal
+Subject: [PATCH 04/14] Hide stats that are irrelevant for baremetal
 
 ---
  .../templates/horizon/common/_limit_summary.html | 16 ++++++++--------
