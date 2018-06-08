@@ -1,7 +1,7 @@
 From 091bb04c909fe1c222826f980222f668bff07fc2 Mon Sep 17 00:00:00 2001
 From: Matthew R Hanlon <mrhanlon@tacc.utexas.edu>
 Date: Fri, 3 Apr 2015 16:41:41 -0500
-Subject: [PATCH 02/14] Remove disk partition from rebuild instance form
+Subject: [PATCH 02/15] Remove disk partition from rebuild instance form
 
 ---
  .../dashboards/project/instances/forms.py     | 26 +++++++++----------
@@ -52,5 +52,5 @@ index 0b2ec4754..a0680aced 100644
      def clean(self):
          cleaned_data = super(RebuildInstanceForm, self).clean()
 -- 
-2.17.0
+2.17.1
 

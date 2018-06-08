@@ -1,7 +1,7 @@
 From 4fb32a5e58cea288c47fe56287c00056042ae87f Mon Sep 17 00:00:00 2001
 From: Alex Rocha <rochaa@tacc.utexas.edu>
 Date: Mon, 9 Apr 2018 17:26:54 -0500
-Subject: [PATCH 12/14] omitting flavor details for disk capacity
+Subject: [PATCH 12/15] omitting flavor details for disk capacity
 
 ---
  .../workflow/launch-instance/flavor/flavor.html    | 14 +++++++-------
@@ -52,5 +52,5 @@ index 222e3a599..ec9bad42c 100644
          <td class="action-col">
            <action-list button-tooltip="item.disabledMessage"
 -- 
-2.17.0
+2.17.1
 

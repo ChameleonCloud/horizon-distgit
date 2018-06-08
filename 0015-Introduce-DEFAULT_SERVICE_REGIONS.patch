@@ -1,0 +1,52 @@
+From eb9814cd01d38c7118b020beec704de6dbf73f4f Mon Sep 17 00:00:00 2001
+From: Timur Sufiev <tsufiev@mirantis.com>
+Date: Mon, 12 Oct 2015 10:07:47 -0700
+Subject: [PATCH 15/15] Introduce DEFAULT_SERVICE_REGIONS
+
+It should be together with related change in django-openstack-auth, if
+specified it will change the default service region calculation: it
+will be taken from this setting (on a per-endpont basis) instead of a
+value stored in cookies.  This value is still checked for sanity,
+i.e. it should be present in Keystone service catalog.
+
+Change-Id: I7e36f766870793f3e8fc391a06f0ee49deaa7add
+Related-Bug: #1506825
+Closes-Bug: #1703390
+---
+ openstack_dashboard/local/local_settings.py.example        | 7 +++++++
+ ...ce_default_service_regions_config-26a41e0d06582d7a.yaml | 5 +++++
+ 2 files changed, 12 insertions(+)
+ create mode 100644 releasenotes/notes/introduce_default_service_regions_config-26a41e0d06582d7a.yaml
+
+diff --git a/openstack_dashboard/local/local_settings.py.example b/openstack_dashboard/local/local_settings.py.example
+index 2eb3d22cd..535b8e8b1 100644
+--- a/openstack_dashboard/local/local_settings.py.example
++++ b/openstack_dashboard/local/local_settings.py.example
+@@ -162,6 +162,13 @@ OPENSTACK_HOST = "127.0.0.1"
+ OPENSTACK_KEYSTONE_URL = "http://%s:5000/v2.0" % OPENSTACK_HOST
+ OPENSTACK_KEYSTONE_DEFAULT_ROLE = "_member_"
+ 
++# For setting the default service region on a per-endpoint basis. Note that the
++# default value for this setting is {}, and below is just an example of how it
++# should be specified.
++#DEFAULT_SERVICE_REGIONS = {
++#    OPENSTACK_KEYSTONE_URL: 'RegionOne'
++#}
++
+ # Enables keystone web single-sign-on if set to True.
+ #WEBSSO_ENABLED = False
+ 
+diff --git a/releasenotes/notes/introduce_default_service_regions_config-26a41e0d06582d7a.yaml b/releasenotes/notes/introduce_default_service_regions_config-26a41e0d06582d7a.yaml
+new file mode 100644
+index 000000000..657f253dd
+--- /dev/null
++++ b/releasenotes/notes/introduce_default_service_regions_config-26a41e0d06582d7a.yaml
+@@ -0,0 +1,5 @@
++---
++features:
++  - Added a new ``DEFAULT_SERVICE_REGIONS`` setting into local_settings.py.
++    If a value of this is specified, it will be the default region to use when
++    logging into the dashboard, instead of the value stored in cookies.
+-- 
+2.17.1
+
