@@ -1,14 +1,14 @@
 From 000abcabf91fb87fe676b60022fa2cd43c221286 Mon Sep 17 00:00:00 2001
 From: Pierre Riteau <priteau@uchicago.edu>
 Date: Tue, 28 Nov 2017 16:33:04 +0000
-Subject: [PATCH 10/15] Fix the v2.0 Keystone URL
+Subject: [PATCH 10/21] Fix the v2.0 Keystone URL
 
 ---
- .../api_access/templates/api_access/openrc_v2.sh.template       | 2 +-
+ .../project/api_access/templates/api_access/openrc_v2.sh.template       | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/openstack_dashboard/dashboards/project/api_access/templates/api_access/openrc_v2.sh.template b/openstack_dashboard/dashboards/project/api_access/templates/api_access/openrc_v2.sh.template
-index 8be07de53..143dda9d1 100644
+index 8be07de..143dda9 100644
 --- a/openstack_dashboard/dashboards/project/api_access/templates/api_access/openrc_v2.sh.template
 +++ b/openstack_dashboard/dashboards/project/api_access/templates/api_access/openrc_v2.sh.template
 @@ -11,7 +11,7 @@
@@ -21,5 +21,5 @@ index 8be07de53..143dda9d1 100644
  # With the addition of Keystone we have standardized on the term **tenant**
  # as the entity that owns the resources.
 -- 
-2.17.1
+1.8.3.1
 

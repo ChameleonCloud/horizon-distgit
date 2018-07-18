@@ -1,16 +1,16 @@
 From 6dc75b1675a71de8b46def9b843960c6e8ab3009 Mon Sep 17 00:00:00 2001
 From: Alex Rocha <rochaa@tacc.utexas.edu>
 Date: Mon, 16 Apr 2018 14:36:22 -0500
-Subject: [PATCH 13/15] Ensuring all flavor details remain hidden after an
+Subject: [PATCH 13/21] Ensuring all flavor details remain hidden after an
  instance is selected, also removing flavor details from search queries
 
 ---
- .../flavor/flavor.controller.js               |  4 +--
- .../launch-instance/flavor/flavor.html        | 32 +++++++++++--------
+ .../launch-instance/flavor/flavor.controller.js    |  4 +--
+ .../workflow/launch-instance/flavor/flavor.html    | 32 ++++++++++++----------
  2 files changed, 20 insertions(+), 16 deletions(-)
 
 diff --git a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.controller.js b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.controller.js
-index 35b5373f7..ef10a5c13 100644
+index 35b5373..ef10a5c 100644
 --- a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.controller.js
 +++ b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.controller.js
 @@ -46,7 +46,7 @@
@@ -32,7 +32,7 @@ index 35b5373f7..ef10a5c13 100644
          label: gettext('Public'),
          name: 'isPublic',
 diff --git a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.html b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.html
-index ec9bad42c..01bdb4e01 100644
+index ec9bad4..01bdb4e 100644
 --- a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.html
 +++ b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.html
 @@ -27,7 +27,7 @@ limitations under the License.
@@ -132,5 +132,5 @@ index ec9bad42c..01bdb4e01 100644
            </div>
            <!--<span class="invalid fa fa-exclamation-triangle"
 -- 
-2.17.1
+1.8.3.1
 

@@ -1,18 +1,18 @@
 From 26fa935cd61d9b4c68577441ce4b164d217b0d1f Mon Sep 17 00:00:00 2001
 From: Nick Timkovich <npt@uchicago.edu>
 Date: Tue, 13 Jun 2017 17:14:11 -0500
-Subject: [PATCH 04/15] Hide stats that are irrelevant for baremetal
+Subject: [PATCH 04/21] Hide stats that are irrelevant for baremetal
 
 ---
- .../templates/horizon/common/_limit_summary.html | 16 ++++++++--------
- .../templates/horizon/common/_usage_summary.html |  2 ++
- .../templates/instances/_detail_overview.html    | 10 ----------
- openstack_dashboard/usage/tables.py              |  8 +++++++-
- openstack_dashboard/usage/views.py               |  6 +++---
+ horizon/templates/horizon/common/_limit_summary.html     | 16 ++++++++--------
+ horizon/templates/horizon/common/_usage_summary.html     |  2 ++
+ .../instances/templates/instances/_detail_overview.html  | 10 ----------
+ openstack_dashboard/usage/tables.py                      |  8 +++++++-
+ openstack_dashboard/usage/views.py                       |  6 +++---
  5 files changed, 20 insertions(+), 22 deletions(-)
 
 diff --git a/horizon/templates/horizon/common/_limit_summary.html b/horizon/templates/horizon/common/_limit_summary.html
-index b58ba8b4c..984ec8271 100644
+index b58ba8b..984ec82 100644
 --- a/horizon/templates/horizon/common/_limit_summary.html
 +++ b/horizon/templates/horizon/common/_limit_summary.html
 @@ -13,21 +13,21 @@
@@ -46,7 +46,7 @@ index b58ba8b4c..984ec8271 100644
              {% endif %}
            </div>
 diff --git a/horizon/templates/horizon/common/_usage_summary.html b/horizon/templates/horizon/common/_usage_summary.html
-index 8a50d70eb..871155250 100644
+index 8a50d70..8711552 100644
 --- a/horizon/templates/horizon/common/_usage_summary.html
 +++ b/horizon/templates/horizon/common/_usage_summary.html
 @@ -18,9 +18,11 @@
@@ -62,7 +62,7 @@ index 8a50d70eb..871155250 100644
    </p>
  </div>
 diff --git a/openstack_dashboard/dashboards/project/instances/templates/instances/_detail_overview.html b/openstack_dashboard/dashboards/project/instances/templates/instances/_detail_overview.html
-index 933080b06..07550df7f 100644
+index 933080b..07550df 100644
 --- a/openstack_dashboard/dashboards/project/instances/templates/instances/_detail_overview.html
 +++ b/openstack_dashboard/dashboards/project/instances/templates/instances/_detail_overview.html
 @@ -43,16 +43,6 @@
@@ -83,7 +83,7 @@ index 933080b06..07550df7f 100644
        <dt>{% trans "Flavor" %}</dt>
        <dd>{% trans "Not available" %}</dd>
 diff --git a/openstack_dashboard/usage/tables.py b/openstack_dashboard/usage/tables.py
-index 88e2cc22d..6e8a41805 100644
+index 88e2cc2..6e8a418 100644
 --- a/openstack_dashboard/usage/tables.py
 +++ b/openstack_dashboard/usage/tables.py
 @@ -95,6 +95,12 @@ class ProjectUsageTable(BaseUsageTable):
@@ -101,7 +101,7 @@ index 88e2cc22d..6e8a41805 100644
          table_actions = (CSVSummary,)
          multi_select = False
 diff --git a/openstack_dashboard/usage/views.py b/openstack_dashboard/usage/views.py
-index 745aebf91..27e80073d 100644
+index 745aebf..27e8007 100644
 --- a/openstack_dashboard/usage/views.py
 +++ b/openstack_dashboard/usage/views.py
 @@ -65,8 +65,8 @@ class UsageView(tables.DataTableView):
@@ -125,5 +125,5 @@ index 745aebf91..27e80073d 100644
  
          try:
 -- 
-2.17.1
+1.8.3.1
 

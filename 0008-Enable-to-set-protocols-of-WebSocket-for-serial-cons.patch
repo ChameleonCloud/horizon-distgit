@@ -1,7 +1,7 @@
 From f6f7bd40c1a0691abacaa19d94d6f8eabebf1aaa Mon Sep 17 00:00:00 2001
 From: Shu Muto <shu-mutou@rf.jp.nec.com>
 Date: Thu, 15 Jun 2017 18:06:47 +0900
-Subject: [PATCH 08/15] Enable to set protocols of WebSocket for serial console
+Subject: [PATCH 08/21] Enable to set protocols of WebSocket for serial console
 
 This patch enables to set protocols of WebSocket for serial console.
 Also, this enables to use serial console not only from instance
@@ -12,14 +12,46 @@ Change-Id: Ib0df9ddfc74f98bfea75abce3b5d5479e3cd47bd
 Needed-By: I41f236f2762613e56748bb05eb7ce0e4c26158d2
 Closes-Bug: #1698092
 ---
- .../dashboards/project/instances/views.py      |  8 ++++----
- .../js/angular/directives/serialConsole.js     | 18 ++++++++----------
- .../serial_console.html                        |  4 ++--
- 3 files changed, 14 insertions(+), 16 deletions(-)
- rename openstack_dashboard/{dashboards/project/instances/templates/instances => templates}/serial_console.html (85%)
+ .../templates/instances/serial_console.html        | 24 ----------------------
+ .../dashboards/project/instances/views.py          |  8 ++++----
+ .../static/js/angular/directives/serialConsole.js  | 18 ++++++++--------
+ openstack_dashboard/templates/serial_console.html  | 24 ++++++++++++++++++++++
+ 4 files changed, 36 insertions(+), 38 deletions(-)
+ delete mode 100644 openstack_dashboard/dashboards/project/instances/templates/instances/serial_console.html
+ create mode 100644 openstack_dashboard/templates/serial_console.html
 
+diff --git a/openstack_dashboard/dashboards/project/instances/templates/instances/serial_console.html b/openstack_dashboard/dashboards/project/instances/templates/instances/serial_console.html
+deleted file mode 100644
+index a852da5..0000000
+--- a/openstack_dashboard/dashboards/project/instances/templates/instances/serial_console.html
++++ /dev/null
+@@ -1,24 +0,0 @@
+-{% load i18n %}
+-<!DOCTYPE html>
+-<html>
+-<head>
+-  <meta content='IE=edge' http-equiv='X-UA-Compatible' />
+-  <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+-  <title>{{instance_name}} ({{instance_id}})</title>
+-  <link rel="stylesheet" href="{{ STATIC_URL }}dashboard/scss/serial_console.css" type="text/css" media="screen">
+-  <script src="{% url 'horizon:jsi18n' 'horizon' %}"></script>
+-  <script src='{{ STATIC_URL }}horizon/lib/termjs/term.js'></script>
+-  <script src="{{ STATIC_URL }}horizon/lib/jquery/jquery.js"></script>
+-  <script src="{{ STATIC_URL }}horizon/lib/angular/angular.js"></script>
+-  <script src="{{ STATIC_URL }}js/angular/directives/serialConsole.js"></script>
+-</head>
+-<body ng-app='serialConsoleApp'>
+-
+-    {% if error_message %}
+-        {{ error_message }}
+-    {% else %}
+-        <serial-console connection='"{{console_url}}"'></serial-console>
+-    {% endif %}
+-
+-</body>
+-</html>
 diff --git a/openstack_dashboard/dashboards/project/instances/views.py b/openstack_dashboard/dashboards/project/instances/views.py
-index 844d6075f..044804a72 100644
+index 844d607..044804a 100644
 --- a/openstack_dashboard/dashboards/project/instances/views.py
 +++ b/openstack_dashboard/dashboards/project/instances/views.py
 @@ -212,11 +212,10 @@ def rdp(request, instance_id):
@@ -53,7 +85,7 @@ index 844d6075f..044804a72 100644
              context["error_message"] = _(
                  "Cannot get console for instance %s.") % self.kwargs[
 diff --git a/openstack_dashboard/static/js/angular/directives/serialConsole.js b/openstack_dashboard/static/js/angular/directives/serialConsole.js
-index e886aebab..8101e7928 100644
+index e886aeb..8101e79 100644
 --- a/openstack_dashboard/static/js/angular/directives/serialConsole.js
 +++ b/openstack_dashboard/static/js/angular/directives/serialConsole.js
 @@ -19,10 +19,6 @@ limitations under the License.
@@ -99,31 +131,36 @@ index e886aebab..8101e7928 100644
          var term = new Terminal();
          var socket = new WebSocket(connection, protocols);
  
-diff --git a/openstack_dashboard/dashboards/project/instances/templates/instances/serial_console.html b/openstack_dashboard/templates/serial_console.html
-similarity index 85%
-rename from openstack_dashboard/dashboards/project/instances/templates/instances/serial_console.html
-rename to openstack_dashboard/templates/serial_console.html
-index a852da525..13c1fc515 100644
---- a/openstack_dashboard/dashboards/project/instances/templates/instances/serial_console.html
+diff --git a/openstack_dashboard/templates/serial_console.html b/openstack_dashboard/templates/serial_console.html
+new file mode 100644
+index 0000000..13c1fc5
+--- /dev/null
 +++ b/openstack_dashboard/templates/serial_console.html
-@@ -4,7 +4,7 @@
- <head>
-   <meta content='IE=edge' http-equiv='X-UA-Compatible' />
-   <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
--  <title>{{instance_name}} ({{instance_id}})</title>
+@@ -0,0 +1,24 @@
++{% load i18n %}
++<!DOCTYPE html>
++<html>
++<head>
++  <meta content='IE=edge' http-equiv='X-UA-Compatible' />
++  <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
 +  <title>{{page_title}}</title>
-   <link rel="stylesheet" href="{{ STATIC_URL }}dashboard/scss/serial_console.css" type="text/css" media="screen">
-   <script src="{% url 'horizon:jsi18n' 'horizon' %}"></script>
-   <script src='{{ STATIC_URL }}horizon/lib/termjs/term.js'></script>
-@@ -17,7 +17,7 @@
-     {% if error_message %}
-         {{ error_message }}
-     {% else %}
--        <serial-console connection='"{{console_url}}"'></serial-console>
++  <link rel="stylesheet" href="{{ STATIC_URL }}dashboard/scss/serial_console.css" type="text/css" media="screen">
++  <script src="{% url 'horizon:jsi18n' 'horizon' %}"></script>
++  <script src='{{ STATIC_URL }}horizon/lib/termjs/term.js'></script>
++  <script src="{{ STATIC_URL }}horizon/lib/jquery/jquery.js"></script>
++  <script src="{{ STATIC_URL }}horizon/lib/angular/angular.js"></script>
++  <script src="{{ STATIC_URL }}js/angular/directives/serialConsole.js"></script>
++</head>
++<body ng-app='serialConsoleApp'>
++
++    {% if error_message %}
++        {{ error_message }}
++    {% else %}
 +        <serial-console connection='"{{console_url}}"' protocols='{{protocols}}'></serial-console>
-     {% endif %}
- 
- </body>
++    {% endif %}
++
++</body>
++</html>
 -- 
-2.17.1
+1.8.3.1
 

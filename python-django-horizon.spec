@@ -5,7 +5,7 @@ Name:       python-django-horizon
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:      1
 Version:    11.0.4
-Release:    1.8%{?dist}
+Release:    1.9%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -37,6 +37,12 @@ Patch00012: 0012-omitting-flavor-details-for-disk-capacity.patch
 Patch00013: 0013-Ensuring-all-flavor-details-remain-hidden-after-an-i.patch
 Patch00014: 0014-fixing-image-name-spacing.patch
 Patch00015: 0015-Introduce-DEFAULT_SERVICE_REGIONS.patch
+Patch00016: 0016-Adding-share-action-to-images.patch
+Patch00017: 0017-updating-sharing-perms-to-share-images-users-can-edi.patch
+Patch00018: 0018-Adding-chameleon-icon-to-images-when-they-are-offici.patch
+Patch00019: 0019-Adding-property-for-env-specific-paths-in-chameleon-.patch
+Patch00020: 0020-Using-settings-file-to-generate-publish-appliance-li.patch
+Patch00021: 0021-fixing-cache-using-horizon-utils-memoized-to-cache-a.patch
 
 #
 # BuildArch needs to be located below patches in the spec file. Don't ask!
@@ -452,7 +458,7 @@ systemctl daemon-reload >/dev/null 2>&1 || :
 #%{_datadir}/openstack-dashboard/openstack_dashboard/enabled/_99_customization.*
 
 %changelog
-* Fri Jun 08 2018 Pierre Riteau <priteau@uchicago.edu> 1:11.0.4-1.8
+* Tue Jul 17 2018 Cody hammock <hammock@tacc.utexas.edu> 1:11.0.4-1.9
 - Add Chameleon patches
 
 * Wed Oct 04 2017 rdo-trunk <javier.pena@redhat.com> 1:11.0.4-1

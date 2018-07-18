@@ -1,21 +1,21 @@
 From 94b66a364ec3064edb72f19e08c0ea55ee009756 Mon Sep 17 00:00:00 2001
 From: Nick Timkovich <npt@uchicago.edu>
 Date: Mon, 9 Oct 2017 14:35:41 -0500
-Subject: [PATCH 05/15] Add reservation dropdown to Angular launch-instance
+Subject: [PATCH 05/21] Add reservation dropdown to Angular launch-instance
  form
 
 ---
- openstack_dashboard/api/rest/__init__.py      |  1 +
- openstack_dashboard/api/rest/blazar.py        | 37 ++++++++++++++
- .../launch-instance/details/details.html      | 16 ++++++
- .../launch-instance-model.service.js          | 37 ++++++++++++++
- .../openstack-service-api/blazar.service.js   | 50 +++++++++++++++++++
+ openstack_dashboard/api/rest/__init__.py           |  1 +
+ openstack_dashboard/api/rest/blazar.py             | 37 ++++++++++++++++
+ .../workflow/launch-instance/details/details.html  | 16 +++++++
+ .../launch-instance-model.service.js               | 37 ++++++++++++++++
+ .../core/openstack-service-api/blazar.service.js   | 50 ++++++++++++++++++++++
  5 files changed, 141 insertions(+)
  create mode 100644 openstack_dashboard/api/rest/blazar.py
  create mode 100644 openstack_dashboard/static/app/core/openstack-service-api/blazar.service.js
 
 diff --git a/openstack_dashboard/api/rest/__init__.py b/openstack_dashboard/api/rest/__init__.py
-index 9e4979c3e..340c59ddb 100644
+index 9e4979c..340c59d 100644
 --- a/openstack_dashboard/api/rest/__init__.py
 +++ b/openstack_dashboard/api/rest/__init__.py
 @@ -22,6 +22,7 @@ in https://wiki.openstack.org/wiki/APIChangeGuidelines.
@@ -28,7 +28,7 @@ index 9e4979c3e..340c59ddb 100644
  from . import glance       # noqa
 diff --git a/openstack_dashboard/api/rest/blazar.py b/openstack_dashboard/api/rest/blazar.py
 new file mode 100644
-index 000000000..cf9ad14ea
+index 0000000..cf9ad14
 --- /dev/null
 +++ b/openstack_dashboard/api/rest/blazar.py
 @@ -0,0 +1,37 @@
@@ -70,7 +70,7 @@ index 000000000..cf9ad14ea
 +        else:
 +            raise rest_utils.AjaxError(501, '')
 diff --git a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/details/details.html b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/details/details.html
-index 6740b67f6..288e43a45 100644
+index 6740b67..288e43a 100644
 --- a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/details/details.html
 +++ b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/details/details.html
 @@ -32,6 +32,22 @@
@@ -97,7 +97,7 @@ index 6740b67f6..288e43a45 100644
          <label class="control-label" for="instance-count">
            <translate>Count</translate>
 diff --git a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/launch-instance-model.service.js b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/launch-instance-model.service.js
-index f76ea5ba2..41ac6c9f5 100644
+index f76ea5b..41ac6c9 100644
 --- a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/launch-instance-model.service.js
 +++ b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/launch-instance-model.service.js
 @@ -33,6 +33,7 @@
@@ -181,7 +181,7 @@ index f76ea5ba2..41ac6c9f5 100644
      function onGetFlavors(data) {
 diff --git a/openstack_dashboard/static/app/core/openstack-service-api/blazar.service.js b/openstack_dashboard/static/app/core/openstack-service-api/blazar.service.js
 new file mode 100644
-index 000000000..455b0b00a
+index 0000000..455b0b0
 --- /dev/null
 +++ b/openstack_dashboard/static/app/core/openstack-service-api/blazar.service.js
 @@ -0,0 +1,50 @@
@@ -236,5 +236,5 @@ index 000000000..455b0b00a
 +
 +}());
 -- 
-2.17.1
+1.8.3.1
 

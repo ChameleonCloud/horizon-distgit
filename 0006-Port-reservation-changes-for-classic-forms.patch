@@ -1,17 +1,17 @@
 From cf8a816ef65bd3dae1314886542ccbd511799101 Mon Sep 17 00:00:00 2001
 From: Nick Timkovich <npt@uchicago.edu>
 Date: Mon, 9 Oct 2017 17:50:32 -0500
-Subject: [PATCH 06/15] Port reservation changes for classic forms
+Subject: [PATCH 06/21] Port reservation changes for classic forms
 
 ---
- .../instances/_flavors_and_quotas.html        |  2 +
- .../instances/workflows/create_instance.py    | 54 ++++++++++++++++++-
- .../launch-instance/details/details.html      |  3 +-
- .../launch-instance-model.service.js          |  4 +-
+ .../templates/instances/_flavors_and_quotas.html   |  2 +
+ .../project/instances/workflows/create_instance.py | 54 +++++++++++++++++++++-
+ .../workflow/launch-instance/details/details.html  |  3 +-
+ .../launch-instance-model.service.js               |  4 +-
  4 files changed, 59 insertions(+), 4 deletions(-)
 
 diff --git a/openstack_dashboard/dashboards/project/instances/templates/instances/_flavors_and_quotas.html b/openstack_dashboard/dashboards/project/instances/templates/instances/_flavors_and_quotas.html
-index 840524a53..a15cf7bab 100644
+index 840524a..a15cf7b 100644
 --- a/openstack_dashboard/dashboards/project/instances/templates/instances/_flavors_and_quotas.html
 +++ b/openstack_dashboard/dashboards/project/instances/templates/instances/_flavors_and_quotas.html
 @@ -3,6 +3,7 @@
@@ -31,7 +31,7 @@ index 840524a53..a15cf7bab 100644
  
  <script type="text/javascript" charset="utf-8">
 diff --git a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
-index 8f06fd152..9c56823cd 100644
+index 8f06fd1..9c56823 100644
 --- a/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
 +++ b/openstack_dashboard/dashboards/project/instances/workflows/create_instance.py
 @@ -23,7 +23,9 @@ import operator
@@ -141,7 +141,7 @@ index 8f06fd152..9c56823cd 100644
          port_profiles_supported = api.neutron.is_port_profiles_supported()
  
 diff --git a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/details/details.html b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/details/details.html
-index 288e43a45..696bb1423 100644
+index 288e43a..696bb14 100644
 --- a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/details/details.html
 +++ b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/details/details.html
 @@ -44,7 +44,8 @@
@@ -155,7 +155,7 @@ index 288e43a45..696bb1423 100644
        </div>
  
 diff --git a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/launch-instance-model.service.js b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/launch-instance-model.service.js
-index 41ac6c9f5..1b7cdaf96 100644
+index 41ac6c9..1b7cdaf 100644
 --- a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/launch-instance-model.service.js
 +++ b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/launch-instance-model.service.js
 @@ -382,8 +382,8 @@
@@ -170,5 +170,5 @@ index 41ac6c9f5..1b7cdaf96 100644
      }
  
 -- 
-2.17.1
+1.8.3.1
 

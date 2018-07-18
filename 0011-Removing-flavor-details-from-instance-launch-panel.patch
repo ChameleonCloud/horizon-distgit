@@ -1,15 +1,15 @@
 From f22fce421d65efca26afd44a38528753b766e0d6 Mon Sep 17 00:00:00 2001
 From: Alex Rocha <rochaa@tacc.utexas.edu>
 Date: Fri, 23 Mar 2018 16:26:06 -0500
-Subject: [PATCH 11/15] Removing flavor details from instance launch panel
+Subject: [PATCH 11/21] Removing flavor details from instance launch panel
 
 ---
- .../templates/instances/_instance_flavor.html |  5 +++
- .../launch-instance/flavor/flavor.html        | 39 ++++++++++---------
+ .../templates/instances/_instance_flavor.html      |  5 +++
+ .../workflow/launch-instance/flavor/flavor.html    | 39 ++++++++++++----------
  2 files changed, 26 insertions(+), 18 deletions(-)
 
 diff --git a/openstack_dashboard/dashboards/project/instances/templates/instances/_instance_flavor.html b/openstack_dashboard/dashboards/project/instances/templates/instances/_instance_flavor.html
-index 476ef8c3e..b6724e42d 100644
+index 476ef8c..b6724e4 100644
 --- a/openstack_dashboard/dashboards/project/instances/templates/instances/_instance_flavor.html
 +++ b/openstack_dashboard/dashboards/project/instances/templates/instances/_instance_flavor.html
 @@ -2,9 +2,14 @@
@@ -28,7 +28,7 @@ index 476ef8c3e..b6724e42d 100644
  " data-original-title="{% blocktrans %}Flavor Details: {{ name }}">{{ name }}{% endblocktrans %}</a>
  <script type="text/javascript" charset="utf-8">
 diff --git a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.html b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.html
-index cfc4cbaa0..222e3a599 100644
+index cfc4cba..222e3a5 100644
 --- a/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.html
 +++ b/openstack_dashboard/dashboards/project/static/dashboard/project/workflow/launch-instance/flavor/flavor.html
 @@ -52,29 +52,29 @@ limitations under the License.
@@ -127,5 +127,5 @@ index cfc4cbaa0..222e3a599 100644
            </div>
            <div ng-if="selectFlavorCtrl.metadataDefs.flavor">
 -- 
-2.17.1
+1.8.3.1
 
