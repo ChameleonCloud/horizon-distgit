@@ -1,7 +1,7 @@
 From 4fb32a5e58cea288c47fe56287c00056042ae87f Mon Sep 17 00:00:00 2001
 From: Alex Rocha <rochaa@tacc.utexas.edu>
 Date: Mon, 9 Apr 2018 17:26:54 -0500
-Subject: [PATCH 12/21] omitting flavor details for disk capacity
+Subject: [PATCH 12/25] omitting flavor details for disk capacity
 
 ---
  .../project/workflow/launch-instance/flavor/flavor.html    | 14 +++++++-------

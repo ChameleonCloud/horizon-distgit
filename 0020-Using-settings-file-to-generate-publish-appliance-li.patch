@@ -1,0 +1,63 @@
+From 0cf730e5775573510324d1b00d578346c27994a7 Mon Sep 17 00:00:00 2001
+From: Alex Rocha <rochaa@tacc.utexas.edu>
+Date: Thu, 12 Jul 2018 16:20:13 -0500
+Subject: [PATCH 20/25] Using settings file to generate publish appliance link
+ and image details link
+
+---
+ openstack_dashboard/api/glance.py                                   | 3 +++
+ .../app/core/images/actions/link-to-appliance-catalog.service.js    | 6 +-----
+ .../static/app/core/images/actions/share-image.service.js           | 6 +-----
+ 3 files changed, 5 insertions(+), 10 deletions(-)
+
+diff --git a/openstack_dashboard/api/glance.py b/openstack_dashboard/api/glance.py
+index 63cd233..7d88fb2 100644
+--- a/openstack_dashboard/api/glance.py
++++ b/openstack_dashboard/api/glance.py
+@@ -140,6 +140,9 @@ class Image(base.APIResourceWrapper):
+         image_dict['is_public'] = self.is_public
+         image_dict['project_supported'] = self.project_supported
+         image_dict['appliance_catalog_id'] = self.appliance_catalog_id
++        image_dict['appliance_catalog_details_path'] = settings.APPLIANCE_CATALOG_DETAILS_PATH
++        image_dict['appliance_catalog_host'] = settings.CHAMELEON_PORTAL_API_BASE_URL
++        image_dict['publish_appliance_path'] = settings.PUBLISH_APPLIANCE_PATH
+         image_dict['properties'] = {
+             k: self._apiresource[k] for k in self._apiresource
+             if self.property_visible(k, show_ext_attrs=show_ext_attrs)}
+diff --git a/openstack_dashboard/static/app/core/images/actions/link-to-appliance-catalog.service.js b/openstack_dashboard/static/app/core/images/actions/link-to-appliance-catalog.service.js
+index ed36183..9732e81 100644
+--- a/openstack_dashboard/static/app/core/images/actions/link-to-appliance-catalog.service.js
++++ b/openstack_dashboard/static/app/core/images/actions/link-to-appliance-catalog.service.js
+@@ -80,11 +80,7 @@
+         // Previous uses of this relocated the display using the successUrl;
+         // in this case we leave the post-action behavior up to the result
+         // handler.
+-        if(window.location.hostname.indexOf('dev.chameleon') > -1 || window.location.port != 443){
+-          return window.open('https://dev.chameleon.tacc.utexas.edu/appliances/' + image.appliance_catalog_id);
+-        } else {
+-          return window.open('https://www.chameleoncloud.org/appliances/' + image.appliance_catalog_id);
+-        }
++        return window.open(image.appliance_catalog_host + image.appliance_catalog_details_path + '/' + image.appliance_catalog_id);
+       }
+   
+       function isActive(image) {
+diff --git a/openstack_dashboard/static/app/core/images/actions/share-image.service.js b/openstack_dashboard/static/app/core/images/actions/share-image.service.js
+index 3a009a9..4605c86 100644
+--- a/openstack_dashboard/static/app/core/images/actions/share-image.service.js
++++ b/openstack_dashboard/static/app/core/images/actions/share-image.service.js
+@@ -94,11 +94,7 @@
+         } else {
+           params += '&chi_uc_appliance_id=' + escape(image.id);
+         }
+-        if(window.location.hostname.indexOf('dev.chameleon') > -1 || window.location.port != 443){
+-          return window.open('https://dev.chameleon.tacc.utexas.edu/appliances/create' + params);
+-        } else {
+-          return window.open('https://www.chameleoncloud.org/appliances/create' + params);
+-        }
++        return window.open(image.appliance_catalog_host + image.publish_appliance_path + params);
+       }
+ 
+       function getCookie(cname) {
+-- 
+1.8.3.1
+

@@ -1,7 +1,7 @@
 From d496aeec8ee1504d5c9cd8e6291eac129354c139 Mon Sep 17 00:00:00 2001
 From: Pierre Riteau <priteau@uchicago.edu>
 Date: Thu, 31 Aug 2017 18:04:42 +0100
-Subject: [PATCH 09/21] Fix link to serial console stylesheet
+Subject: [PATCH 09/25] Fix link to serial console stylesheet
 
 The serial_console.css stylesheet was renamed to serial_console.scss in
 commit 09706c6e3754c218b00dcaf210629aa6970dc80a, but the link

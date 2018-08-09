@@ -1,0 +1,38 @@
+From 638b58a16cd8e363250377b4d816ab11484c5ca8 Mon Sep 17 00:00:00 2001
+From: Alex Rocha <rochaa@tacc.utexas.edu>
+Date: Tue, 24 Jul 2018 14:42:30 -0500
+Subject: [PATCH 24/25] Adding try/catch so images load on horizon even if
+ chameleon portal happens to be down
+
+---
+ openstack_dashboard/api/glance.py | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/openstack_dashboard/api/glance.py b/openstack_dashboard/api/glance.py
+index 183c390..8969cee 100644
+--- a/openstack_dashboard/api/glance.py
++++ b/openstack_dashboard/api/glance.py
+@@ -197,11 +197,15 @@ class Image(base.APIResourceWrapper):
+ 
+ @memoized
+ def fetch_supported_appliances(request):
+-    LOG.info('Fetching and caching Appliance JSON from ' + settings.CHAMELEON_PORTAL_API_BASE_URL + settings.APPLIANCE_CATALOG_API_PATH)
+-    http = urllib3.PoolManager()
+-    r = http.request('GET', settings.CHAMELEON_PORTAL_API_BASE_URL + settings.APPLIANCE_CATALOG_API_PATH)
+-    LOG.debug('fetched appliance catalog data: ' + r.data)
+-    return r.data
++    try:
++        LOG.info('Fetching and caching Appliance JSON from ' + settings.CHAMELEON_PORTAL_API_BASE_URL + settings.APPLIANCE_CATALOG_API_PATH)
++        http = urllib3.PoolManager()
++        r = http.request('GET', settings.CHAMELEON_PORTAL_API_BASE_URL + settings.APPLIANCE_CATALOG_API_PATH)
++        LOG.debug('fetched appliance catalog data: ' + r.data)
++        return r.data
++    except Exception as e:
++        LOG.error(e)
++    return []
+ 
+ @memoized
+ def glanceclient(request, version=None):
+-- 
+1.8.3.1
+

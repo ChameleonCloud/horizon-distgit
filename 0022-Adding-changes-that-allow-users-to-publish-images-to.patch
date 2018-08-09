@@ -1,0 +1,394 @@
+From b6f7f27708ea6684d5c1ddff6628f17f229c564e Mon Sep 17 00:00:00 2001
+From: Alex Rocha <rochaa@tacc.utexas.edu>
+Date: Mon, 23 Jul 2018 09:46:01 -0500
+Subject: [PATCH 22/25] Adding changes that allow users to publish images to
+ the Appliance Catalog from Horizon
+
+---
+ openstack_dashboard/api/glance.py                  |  22 +++-
+ openstack_dashboard/settings.py                    |   2 +-
+ .../app/core/images/actions/actions.module.js      |  16 +--
+ .../core/images/actions/publish-image.service.js   | 122 ++++++++++++++++++++
+ .../app/core/images/actions/share-image.service.js | 128 ---------------------
+ 5 files changed, 152 insertions(+), 138 deletions(-)
+ create mode 100644 openstack_dashboard/static/app/core/images/actions/publish-image.service.js
+ delete mode 100644 openstack_dashboard/static/app/core/images/actions/share-image.service.js
+
+diff --git a/openstack_dashboard/api/glance.py b/openstack_dashboard/api/glance.py
+index 6a3fac7..183c390 100644
+--- a/openstack_dashboard/api/glance.py
++++ b/openstack_dashboard/api/glance.py
+@@ -63,7 +63,7 @@ class Image(base.APIResourceWrapper):
+     _attrs = {"architecture", "container_format", "disk_format", "created_at",
+               "owner", "size", "id", "status", "updated_at", "checksum",
+               "visibility", "name", "is_public", "protected", "min_disk",
+-              "min_ram", "project_supported"}
++              "min_ram", "project_supported", "published_in_app_catalog"}
+     _ext_attrs = {"file", "locations", "schema", "tags", "virtual_size",
+                   "kernel_id", "ramdisk_id", "image_url"}
+     APP_CATALOG = None
+@@ -93,6 +93,10 @@ class Image(base.APIResourceWrapper):
+         return self.get_is_project_supported()
+ 
+     @property
++    def published_in_app_catalog(self):
++        return self.get_is_published_in_app_catalog()
++
++    @property
+     def appliance_catalog_id(self):
+         return self.get_catalog_id()
+ 
+@@ -130,6 +134,7 @@ class Image(base.APIResourceWrapper):
+         image_dict = super(Image, self).to_dict()
+         image_dict['is_public'] = self.is_public
+         image_dict['project_supported'] = self.project_supported
++        image_dict['published_in_app_catalog'] = self.published_in_app_catalog
+         image_dict['appliance_catalog_id'] = self.appliance_catalog_id
+         image_dict['appliance_catalog_details_path'] = settings.APPLIANCE_CATALOG_DETAILS_PATH
+         image_dict['appliance_catalog_host'] = settings.CHAMELEON_PORTAL_API_BASE_URL
+@@ -175,6 +180,21 @@ class Image(base.APIResourceWrapper):
+             LOG.error('Error getting project_supported flag from appliance catalog api for image id: ' + self.id)
+         return False
+ 
++    def get_is_published_in_app_catalog(self):
++        try:
++            LOG.info('Checking if image is published to appliance catalog for image id: ' + self.id)
++            app_json = json.loads(Image.APP_CATALOG)
++            for app in app_json['result']:
++                if(app['chi_uc_appliance_id'] == self.id):
++                    return True
++                if(app['chi_tacc_appliance_id'] == self.id):
++                    return True
++                if(app['kvm_tacc_appliance_id'] == self.id):
++                    return True
++        except:
++            LOG.error('Error checking if image is published to appliance catalog for image id: ' + self.id)
++        return False
++
+ @memoized
+ def fetch_supported_appliances(request):
+     LOG.info('Fetching and caching Appliance JSON from ' + settings.CHAMELEON_PORTAL_API_BASE_URL + settings.APPLIANCE_CATALOG_API_PATH)
+diff --git a/openstack_dashboard/settings.py b/openstack_dashboard/settings.py
+index edf4ba9..9136ec7 100644
+--- a/openstack_dashboard/settings.py
++++ b/openstack_dashboard/settings.py
+@@ -330,7 +330,7 @@ OPENSTACK_PROFILER = {
+ CHAMELEON_PORTAL_API_BASE_URL = 'https://www.chameleoncloud.org'
+ APPLIANCE_CATALOG_API_PATH = '/appliances/api/appliances'
+ APPLIANCE_CATALOG_DETAILS_PATH = '/appliances'
+-PUBLISH_APPLIANCE_PATH = '/appliances/create'
++PUBLISH_APPLIANCE_PATH = '/appliances/create/image'
+ 
+ try:
+     from local.local_settings import *  # noqa
+diff --git a/openstack_dashboard/static/app/core/images/actions/actions.module.js b/openstack_dashboard/static/app/core/images/actions/actions.module.js
+index 51551b3..3ee4ee9 100644
+--- a/openstack_dashboard/static/app/core/images/actions/actions.module.js
++++ b/openstack_dashboard/static/app/core/images/actions/actions.module.js
+@@ -38,8 +38,8 @@
+     'horizon.app.core.images.actions.delete-image.service',
+     'horizon.app.core.images.actions.launch-instance.service',
+     'horizon.app.core.images.actions.update-metadata.service',
+-    'horizon.app.core.images.resourceType',/**
+-    'horizon.app.core.images.actions.share-image.service', */
++    'horizon.app.core.images.resourceType',
++    'horizon.app.core.images.actions.publish-image.service',
+     'horizon.app.core.images.actions.link-to-appliance-catalog.service'
+   ];
+ 
+@@ -52,7 +52,7 @@
+     launchInstanceService,
+     updateMetadataService,
+     imageResourceTypeCode,
+-    /** shareImageService, **/
++    publishImageService,
+     linkToApplianceCatalogService
+   ) {
+     var imageResourceType = registry.getResourceType(imageResourceTypeCode);
+@@ -92,14 +92,14 @@
+           text: gettext('Delete Image'),
+           type: 'delete'
+         }
+-      })/**
++      })
+       .append({
+-        id: 'shareImageService',
+-        service: shareImageService,
++        id: 'publishImageService',
++        service: publishImageService,
+         template: {
+-          text: gettext('Share')
++          text: gettext('Publish to Appliance Catalog')
+         }
+-      }) */
++      })
+       .append({
+         id: 'linkToApplianceCatalogService',
+         service: linkToApplianceCatalogService,
+diff --git a/openstack_dashboard/static/app/core/images/actions/publish-image.service.js b/openstack_dashboard/static/app/core/images/actions/publish-image.service.js
+new file mode 100644
+index 0000000..61a7026
+--- /dev/null
++++ b/openstack_dashboard/static/app/core/images/actions/publish-image.service.js
+@@ -0,0 +1,122 @@
++/**
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License"); you may
++ * not use self file except in compliance with the License. You may obtain
++ * a copy of the License at
++ *
++ *    http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
++ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
++ * License for the specific language governing permissions and limitations
++ * under the License.
++ */
++
++(function() {
++    'use strict';
++  
++    angular
++      .module('horizon.app.core.images')
++      .factory('horizon.app.core.images.actions.publish-image.service', publishImageService);
++  
++    publishImageService.$inject = [
++      '$q',
++      'horizon.app.core.openstack-service-api.glance',
++      'horizon.app.core.openstack-service-api.userSession',
++      'horizon.app.core.images.non_bootable_image_types',
++      'horizon.dashboard.project.workflow.launch-instance.modal.service',
++      'horizon.framework.util.q.extensions',
++      'horizon.app.core.openstack-service-api.policy'
++    ];
++  
++    /**
++     * @ngDoc factory
++     * @name horizon.app.core.images.actions.publishImageService
++     * @param {Object} $q
++     * @param {Object} nonBootableImageTypes
++     * @param {Object} launchInstanceModal
++     * @param {Object} $qExtensions
++     * @Description
++     * Brings up the Launch Instance for image modal.
++     * On submit, launch the instance for the Image.
++     * On cancel, do nothing.
++     *
++     * @returns {Object} The service
++     */
++    function publishImageService(
++      $q,
++      glance,
++      userSessionService,
++      nonBootableImageTypes,
++      launchInstanceModal,
++      $qExtensions
++    ) {
++      var service = {
++        perform: perform,
++        allowed: allowed
++      };
++      var modifyImagePolicyCheck, scope, region;
++      userSessionService.get().then(function(userSession){region = userSession.services_region;});
++  
++      return service;
++
++      function initScope($scope) {
++        scope = $scope;
++        $scope.$on(events.IMAGE_METADATA_CHANGED, onMetadataChange);
++        modifyImagePolicyCheck = policy.ifAllowed({rules: [['image', 'modify_image']]});
++      }
++
++      function allowed(image) {
++        return $q.all([
++          modifyImagePolicyCheck,
++          userSessionService.isCurrentProject(image.owner),
++          isActive(image),
++          doshowPublishLink(image)
++        ]);
++      }
++  
++      function perform(image) {
++        var params = '?name=' + escape(image.name);
++        params += '&short_description=' + escape(image.properties.description === undefined ? '' : image.properties.description);
++        if(region.indexOf('tacc') != -1){
++          params += '&chi_tacc_appliance_id=' + escape(image.id);
++        } else {
++          params += '&chi_uc_appliance_id=' + escape(image.id);
++        }
++        return window.open(image.appliance_catalog_host + image.publish_appliance_path + params);
++      }
++
++      function getCookie(cname) {
++        var name = cname + "=";
++        var decodedCookie = decodeURIComponent(document.cookie);
++        var ca = decodedCookie.split(';');
++        for(var i = 0; i <ca.length; i++) {
++            var c = ca[i];
++            while (c.charAt(0) == ' ') {
++                c = c.substring(1);
++            }
++            if (c.indexOf(name) == 0) {
++                return c.substring(name.length, c.length);
++            }
++        }
++        return "";
++    }
++  
++      function isActive(image) {
++        return $qExtensions.booleanAsPromise(image.status === 'active');
++      }
++
++      function doshowPublishLink(image) {
++        return $qExtensions.booleanAsPromise(!image.published_in_app_catalog);
++      }
++  
++      function isBootable(image) {
++        return $qExtensions.booleanAsPromise(
++          nonBootableImageTypes.indexOf(image.container_format) < 0
++        );
++      }
++  
++    } // end of publishImageService
++  })(); // end of IIFE
++  
+\ No newline at end of file
+diff --git a/openstack_dashboard/static/app/core/images/actions/share-image.service.js b/openstack_dashboard/static/app/core/images/actions/share-image.service.js
+deleted file mode 100644
+index 4605c86..0000000
+--- a/openstack_dashboard/static/app/core/images/actions/share-image.service.js
++++ /dev/null
+@@ -1,128 +0,0 @@
+-/**
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License"); you may
+- * not use self file except in compliance with the License. You may obtain
+- * a copy of the License at
+- *
+- *    http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+- * License for the specific language governing permissions and limitations
+- * under the License.
+- */
+-
+-(function() {
+-    'use strict';
+-  
+-    angular
+-      .module('horizon.app.core.images')
+-      .factory('horizon.app.core.images.actions.share-image.service', shareImageService);
+-  
+-    shareImageService.$inject = [
+-      '$q',
+-      'horizon.app.core.openstack-service-api.glance',
+-      'horizon.app.core.openstack-service-api.userSession',
+-      'horizon.app.core.images.non_bootable_image_types',
+-      'horizon.dashboard.project.workflow.launch-instance.modal.service',
+-      'horizon.framework.util.q.extensions',
+-      'horizon.app.core.openstack-service-api.policy'
+-    ];
+-  
+-    /**
+-     * @ngDoc factory
+-     * @name horizon.app.core.images.actions.shareImageService
+-     * @param {Object} $q
+-     * @param {Object} nonBootableImageTypes
+-     * @param {Object} launchInstanceModal
+-     * @param {Object} $qExtensions
+-     * @Description
+-     * Brings up the Launch Instance for image modal.
+-     * On submit, launch the instance for the Image.
+-     * On cancel, do nothing.
+-     *
+-     * @returns {Object} The service
+-     */
+-    function shareImageService(
+-      $q,
+-      glance,
+-      userSessionService,
+-      nonBootableImageTypes,
+-      launchInstanceModal,
+-      $qExtensions
+-    ) {
+-      var service = {
+-        perform: perform,
+-        allowed: allowed
+-      };
+-      var modifyImagePolicyCheck, scope;
+-  
+-      return service;
+-
+-      function initScope($scope) {
+-        scope = $scope;
+-        $scope.$on(events.IMAGE_METADATA_CHANGED, onMetadataChange);
+-        modifyImagePolicyCheck = policy.ifAllowed({rules: [['image', 'modify_image']]});
+-      }
+-
+-      function allowed(image) {
+-        return $q.all([
+-          modifyImagePolicyCheck,
+-          userSessionService.isCurrentProject(image.owner),
+-          isActive(image)
+-        ]);
+-      }
+-
+-      //////////////
+-  
+-      function perform(image) {
+-        // Previous uses of this relocated the display using the successUrl;
+-        // in this case we leave the post-action behavior up to the result
+-        // handler.
+-        // return launchInstanceModal.open({
+-        //   'imageId': image.id
+-        // });
+-        console.log(image);
+-        console.log(userSessionService.isCurrentProject(image.owner));
+-        var params = '?name=' + escape(image.name);
+-        params += '&short_description=' + escape(image.properties.description === undefined ? '' : image.properties.description);
+-        var region = getCookie('services_region');
+-        //var region = userSessionService.get().then(function(userSession){return userSession.services_region;});
+-        if('region'.indexOf('@tacc') != -1){
+-          params += '&chi_tacc_appliance_id=' + escape(image.id);
+-        } else {
+-          params += '&chi_uc_appliance_id=' + escape(image.id);
+-        }
+-        return window.open(image.appliance_catalog_host + image.publish_appliance_path + params);
+-      }
+-
+-      function getCookie(cname) {
+-        var name = cname + "=";
+-        var decodedCookie = decodeURIComponent(document.cookie);
+-        var ca = decodedCookie.split(';');
+-        for(var i = 0; i <ca.length; i++) {
+-            var c = ca[i];
+-            while (c.charAt(0) == ' ') {
+-                c = c.substring(1);
+-            }
+-            if (c.indexOf(name) == 0) {
+-                return c.substring(name.length, c.length);
+-            }
+-        }
+-        return "";
+-    }
+-  
+-      function isActive(image) {
+-        return $qExtensions.booleanAsPromise(image.status === 'active');
+-      }
+-  
+-      function isBootable(image) {
+-        return $qExtensions.booleanAsPromise(
+-          nonBootableImageTypes.indexOf(image.container_format) < 0
+-        );
+-      }
+-  
+-    } // end of shareImageService
+-  })(); // end of IIFE
+-  
+\ No newline at end of file
+-- 
+1.8.3.1
+
