@@ -5,7 +5,7 @@ Name:       python-django-horizon
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:      1
 Version:    11.0.4
-Release:    1.10%{?dist}
+Release:    1.11%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -37,16 +37,20 @@ Patch00012: 0012-omitting-flavor-details-for-disk-capacity.patch
 Patch00013: 0013-Ensuring-all-flavor-details-remain-hidden-after-an-i.patch
 Patch00014: 0014-fixing-image-name-spacing.patch
 Patch00015: 0015-Introduce-DEFAULT_SERVICE_REGIONS.patch
-Patch00016: 0016-Adding-share-action-to-images.patch
-Patch00017: 0017-updating-sharing-perms-to-share-images-users-can-edi.patch
-Patch00018: 0018-Adding-chameleon-icon-to-images-when-they-are-offici.patch
-Patch00019: 0019-Adding-property-for-env-specific-paths-in-chameleon-.patch
-Patch00020: 0020-Using-settings-file-to-generate-publish-appliance-li.patch
-Patch00021: 0021-fixing-cache-using-horizon-utils-memoized-to-cache-a.patch
-Patch00022: 0022-Adding-changes-that-allow-users-to-publish-images-to.patch
-Patch00023: 0023-Making-call-to-usersession-as-the-images-load-in-the.patch
-Patch00024: 0024-Adding-try-catch-so-images-load-on-horizon-even-if-c.patch
-Patch00025: 0025-Ensuring-custom-image-properties-aren-t-sent-to-glan.patch
+Patch00016: 0016-Move-django-variants-UT-and-selenium-headless-to-in-.patch
+Patch00017: 0017-Imported-Translations-from-Zanata.patch
+Patch00018: 0018-Fix-link-to-serial-console-stylesheet.patch
+Patch00019: 0019-Enable-to-set-protocols-of-WebSocket-for-serial-cons.patch
+Patch00020: 0020-Adding-share-action-to-images.patch
+Patch00021: 0021-updating-sharing-perms-to-share-images-users-can-edi.patch
+Patch00022: 0022-Adding-chameleon-icon-to-images-when-they-are-offici.patch
+Patch00023: 0023-Adding-property-for-env-specific-paths-in-chameleon-.patch
+Patch00024: 0024-Using-settings-file-to-generate-publish-appliance-li.patch
+Patch00025: 0025-fixing-cache-using-horizon-utils-memoized-to-cache-a.patch
+Patch00026: 0026-Adding-changes-that-allow-users-to-publish-images-to.patch
+Patch00027: 0027-Making-call-to-usersession-as-the-images-load-in-the.patch
+Patch00028: 0028-Adding-try-catch-so-images-load-on-horizon-even-if-c.patch
+Patch00029: 0029-Ensuring-custom-image-properties-aren-t-sent-to-glan.patch
 
 #
 # BuildArch needs to be located below patches in the spec file. Don't ask!
@@ -462,7 +466,7 @@ systemctl daemon-reload >/dev/null 2>&1 || :
 #%{_datadir}/openstack-dashboard/openstack_dashboard/enabled/_99_customization.*
 
 %changelog
-* Tue Jul 31 2018 Cody hammock <hammock@tacc.utexas.edu> 1:11.0.4-1.10
+* Tue Jul 31 2018 Cody hammock <hammock@tacc.utexas.edu> 1:11.0.4-1.11
 - Add Chameleon patches
 
 * Wed Oct 04 2017 rdo-trunk <javier.pena@redhat.com> 1:11.0.4-1

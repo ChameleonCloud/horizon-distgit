@@ -1,7 +1,7 @@
-From d496aeec8ee1504d5c9cd8e6291eac129354c139 Mon Sep 17 00:00:00 2001
+From 83197cbfc6ed20b0cd210f047e9a981e6132c904 Mon Sep 17 00:00:00 2001
 From: Pierre Riteau <priteau@uchicago.edu>
 Date: Thu, 31 Aug 2017 18:04:42 +0100
-Subject: [PATCH 09/29] Fix link to serial console stylesheet
+Subject: [PATCH 18/29] Fix link to serial console stylesheet
 
 The serial_console.css stylesheet was renamed to serial_console.scss in
 commit 09706c6e3754c218b00dcaf210629aa6970dc80a, but the link
@@ -14,25 +14,22 @@ compile it from SCSS to CSS.
 Change-Id: Ic8abc970e76cb67c79c2335370c63e235a23eb5a
 Closes-Bug: #1714311
 ---
- openstack_dashboard/templates/serial_console.html | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ openstack_dashboard/templates/serial_console.html | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/openstack_dashboard/templates/serial_console.html b/openstack_dashboard/templates/serial_console.html
-index 13c1fc5..d1434e7 100644
+index d1434e7..0ff0c06 100644
 --- a/openstack_dashboard/templates/serial_console.html
 +++ b/openstack_dashboard/templates/serial_console.html
-@@ -5,7 +5,10 @@
+@@ -4,7 +4,7 @@
+ <head>
    <meta content='IE=edge' http-equiv='X-UA-Compatible' />
    <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
-   <title>{{page_title}}</title>
--  <link rel="stylesheet" href="{{ STATIC_URL }}dashboard/scss/serial_console.css" type="text/css" media="screen">
-+  {% load compress %}
-+  {% compress css %}
-+  <link rel="stylesheet" href="{{ STATIC_URL }}dashboard/scss/serial_console.scss" type="text/scss" media="screen" />
-+  {% endcompress %}
-   <script src="{% url 'horizon:jsi18n' 'horizon' %}"></script>
-   <script src='{{ STATIC_URL }}horizon/lib/termjs/term.js'></script>
-   <script src="{{ STATIC_URL }}horizon/lib/jquery/jquery.js"></script>
+-  <title>{{page_title}}</title>
++  <title>{{instance_name}} ({{instance_id}})</title>
+   {% load compress %}
+   {% compress css %}
+   <link rel="stylesheet" href="{{ STATIC_URL }}dashboard/scss/serial_console.scss" type="text/scss" media="screen" />
 -- 
 1.8.3.1
 

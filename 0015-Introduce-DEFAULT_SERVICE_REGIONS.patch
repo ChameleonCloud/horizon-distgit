@@ -1,7 +1,7 @@
 From eb9814cd01d38c7118b020beec704de6dbf73f4f Mon Sep 17 00:00:00 2001
 From: Timur Sufiev <tsufiev@mirantis.com>
 Date: Mon, 12 Oct 2015 10:07:47 -0700
-Subject: [PATCH 15/25] Introduce DEFAULT_SERVICE_REGIONS
+Subject: [PATCH 15/29] Introduce DEFAULT_SERVICE_REGIONS
 
 It should be together with related change in django-openstack-auth, if
 specified it will change the default service region calculation: it

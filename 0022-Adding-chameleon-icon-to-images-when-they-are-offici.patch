@@ -1,7 +1,7 @@
-From 699c351468b141a467b3e6ec7b3accbe2bdd389d Mon Sep 17 00:00:00 2001
+From 52572963869ef8f21bcea587465dd6e1558014b3 Mon Sep 17 00:00:00 2001
 From: Alex Rocha <rochaa@tacc.utexas.edu>
 Date: Wed, 27 Jun 2018 17:45:58 -0500
-Subject: [PATCH 18/25] Adding chameleon icon to images when they are
+Subject: [PATCH 22/29] Adding chameleon icon to images when they are
  officially supported by the project, adding a link out to the appliance
  catalog for images that are shared publicly on the cc portal appliance
  catalog.

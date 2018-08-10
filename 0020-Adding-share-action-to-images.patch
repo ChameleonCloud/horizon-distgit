@@ -1,7 +1,7 @@
-From 052fc14dab7987731f8654ba9cbefbfa8d0c022d Mon Sep 17 00:00:00 2001
+From 93db4f23ac163e6fe51971c2e14fa64c75b5d5ea Mon Sep 17 00:00:00 2001
 From: Alejandro Rocha <rochaa@dhcp-146-6-176-253.tacc.utexas.edu>
 Date: Thu, 14 Jun 2018 13:05:07 -0500
-Subject: [PATCH 16/25] Adding share action to images
+Subject: [PATCH 20/29] Adding share action to images
 
 ---
  .../app/core/images/actions/actions.module.js      | 13 +++-

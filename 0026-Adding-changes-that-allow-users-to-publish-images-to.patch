@@ -1,7 +1,7 @@
-From b6f7f27708ea6684d5c1ddff6628f17f229c564e Mon Sep 17 00:00:00 2001
+From 49e522a199aed743b5a15a10d48599d909d52d55 Mon Sep 17 00:00:00 2001
 From: Alex Rocha <rochaa@tacc.utexas.edu>
 Date: Mon, 23 Jul 2018 09:46:01 -0500
-Subject: [PATCH 22/25] Adding changes that allow users to publish images to
+Subject: [PATCH 26/29] Adding changes that allow users to publish images to
  the Appliance Catalog from Horizon
 
 ---

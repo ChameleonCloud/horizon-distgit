@@ -1,7 +1,7 @@
 From 6dc75b1675a71de8b46def9b843960c6e8ab3009 Mon Sep 17 00:00:00 2001
 From: Alex Rocha <rochaa@tacc.utexas.edu>
 Date: Mon, 16 Apr 2018 14:36:22 -0500
-Subject: [PATCH 13/25] Ensuring all flavor details remain hidden after an
+Subject: [PATCH 13/29] Ensuring all flavor details remain hidden after an
  instance is selected, also removing flavor details from search queries
 
 ---

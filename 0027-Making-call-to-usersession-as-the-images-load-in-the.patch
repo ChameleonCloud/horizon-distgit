@@ -1,7 +1,7 @@
-From bc95fee0b23f9a611b09328e5a56f875943c5991 Mon Sep 17 00:00:00 2001
+From 363dd32f3f23ecffcb4d4d0cb11926e076e54801 Mon Sep 17 00:00:00 2001
 From: Alex Rocha <rochaa@tacc.utexas.edu>
 Date: Tue, 24 Jul 2018 13:27:42 -0500
-Subject: [PATCH 23/25] Making call to usersession as the images load in the
+Subject: [PATCH 27/29] Making call to usersession as the images load in the
  images dashboard
 
 ---
