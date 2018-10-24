@@ -1,7 +1,7 @@
-From 4f284b2b5b6df85d7ae58a7a5750e4a8609d4b44 Mon Sep 17 00:00:00 2001
+From ea662b1add2438225dba63e5e33f114665f7a787 Mon Sep 17 00:00:00 2001
 From: Alejandro Rocha <rochaa@dhcp-146-6-176-253.tacc.utexas.edu>
 Date: Mon, 18 Jun 2018 13:44:29 -0500
-Subject: [PATCH 21/29] updating sharing perms to share images users can edit
+Subject: [PATCH 17/28] updating sharing perms to share images users can edit
 
 ---
  .../app/core/images/actions/share-image.service.js | 56 +++++++++++++++++++---

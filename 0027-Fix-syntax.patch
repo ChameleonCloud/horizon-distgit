@@ -1,0 +1,25 @@
+From 25020b21d1d8ed6cf596563ba7c2a7959606c9b9 Mon Sep 17 00:00:00 2001
+From: codyhammock <hammock@tacc.utexas.edu>
+Date: Tue, 16 Oct 2018 10:47:13 -0500
+Subject: [PATCH 27/28] Fix syntax
+
+---
+ openstack_dashboard/api/nova.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/openstack_dashboard/api/nova.py b/openstack_dashboard/api/nova.py
+index 1d4de7b..a710ec4 100644
+--- a/openstack_dashboard/api/nova.py
++++ b/openstack_dashboard/api/nova.py
+@@ -105,7 +105,7 @@ class Server(base.APIResourceWrapper):
+               'tenant_id', 'user_id', 'created', 'locked',
+               'OS-EXT-STS:power_state', 'OS-EXT-STS:task_state',
+               'OS-EXT-SRV-ATTR:instance_name', 'OS-EXT-SRV-ATTR:host',
+-              'OS-EXT-AZ:availability_zone', 'OS-DCF:diskConfig'],
++              'OS-EXT-AZ:availability_zone', 'OS-DCF:diskConfig',
+               'OS-EXT-SRV-ATTR:hypervisor_hostname']
+ 
+     def __init__(self, apiresource, request):
+-- 
+1.8.3.1
+

@@ -1,7 +1,7 @@
 From e1c2d62dfa33a184788f00f6359ee74a3a5835bd Mon Sep 17 00:00:00 2001
 From: Nick Timkovich <npt@uchicago.edu>
 Date: Wed, 11 Oct 2017 12:39:29 -0500
-Subject: [PATCH 07/29] Hide AZ controls
+Subject: [PATCH 07/28] Hide AZ controls
 
 ---
  .../dashboards/project/instances/workflows/create_instance.py          | 3 +++

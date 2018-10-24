@@ -1,7 +1,7 @@
-From e8d88ef0f3fef1697ace744d77fd3e1a4d95acac Mon Sep 17 00:00:00 2001
+From f3e956aad5aaf354a00a06c0596f814f48cd50a0 Mon Sep 17 00:00:00 2001
 From: Alex Rocha <rochaa@tacc.utexas.edu>
 Date: Fri, 13 Jul 2018 18:10:12 -0500
-Subject: [PATCH 25/29] fixing cache, using horizon utils memoized to cache api
+Subject: [PATCH 21/28] fixing cache, using horizon utils memoized to cache api
  request
 
 ---

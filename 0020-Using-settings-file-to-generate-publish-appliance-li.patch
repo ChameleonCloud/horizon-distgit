@@ -1,7 +1,7 @@
-From e3187bedce449dcc98c08260f993673b3fb7b3a4 Mon Sep 17 00:00:00 2001
+From 17967efa5260cf0c5ef831c0664472713764ffea Mon Sep 17 00:00:00 2001
 From: Alex Rocha <rochaa@tacc.utexas.edu>
 Date: Thu, 12 Jul 2018 16:20:13 -0500
-Subject: [PATCH 24/29] Using settings file to generate publish appliance link
+Subject: [PATCH 20/28] Using settings file to generate publish appliance link
  and image details link
 
 ---

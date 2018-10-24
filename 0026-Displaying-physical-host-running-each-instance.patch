@@ -1,0 +1,51 @@
+From ad92acd15d29492213ec618e01688710b9a45c08 Mon Sep 17 00:00:00 2001
+From: Alex Rocha <rochaa@tacc.utexas.edu>
+Date: Mon, 15 Oct 2018 14:20:41 -0500
+Subject: [PATCH 26/28] Displaying physical host running each instance
+
+---
+ openstack_dashboard/api/nova.py                                    | 7 ++++++-
+ .../project/instances/templates/instances/_detail_overview.html    | 2 ++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/openstack_dashboard/api/nova.py b/openstack_dashboard/api/nova.py
+index 5662298..1d4de7b 100644
+--- a/openstack_dashboard/api/nova.py
++++ b/openstack_dashboard/api/nova.py
+@@ -105,7 +105,8 @@ class Server(base.APIResourceWrapper):
+               'tenant_id', 'user_id', 'created', 'locked',
+               'OS-EXT-STS:power_state', 'OS-EXT-STS:task_state',
+               'OS-EXT-SRV-ATTR:instance_name', 'OS-EXT-SRV-ATTR:host',
+-              'OS-EXT-AZ:availability_zone', 'OS-DCF:diskConfig']
++              'OS-EXT-AZ:availability_zone', 'OS-DCF:diskConfig'],
++              'OS-EXT-SRV-ATTR:hypervisor_hostname']
+ 
+     def __init__(self, apiresource, request):
+         super(Server, self).__init__(apiresource)
+@@ -136,6 +137,10 @@ class Server(base.APIResourceWrapper):
+         return getattr(self, 'OS-EXT-SRV-ATTR:instance_name', "")
+ 
+     @property
++    def hypervisor_hostname(self):
++        return getattr(self, 'OS-EXT-SRV-ATTR:hypervisor_hostname', "")
++
++    @property
+     def availability_zone(self):
+         return getattr(self, 'OS-EXT-AZ:availability_zone', "")
+ 
+diff --git a/openstack_dashboard/dashboards/project/instances/templates/instances/_detail_overview.html b/openstack_dashboard/dashboards/project/instances/templates/instances/_detail_overview.html
+index 07550df..609c402 100644
+--- a/openstack_dashboard/dashboards/project/instances/templates/instances/_detail_overview.html
++++ b/openstack_dashboard/dashboards/project/instances/templates/instances/_detail_overview.html
+@@ -6,6 +6,8 @@
+     <dd>{{ instance.name }}</dd>
+     <dt>{% trans "ID" %}</dt>
+     <dd>{{ instance.id }}</dd>
++     <dt>{% trans "Physical Host Name" %}</dt>
++    <dd>{{ instance.hypervisor_hostname }}</dd>
+     <dt>{% trans "Status" %}</dt>
+     <dd>{{ instance.status_label|title }}</dd>
+     <dt>{% trans "Availability Zone" %}</dt>
+-- 
+1.8.3.1
+

@@ -1,7 +1,7 @@
 From 000abcabf91fb87fe676b60022fa2cd43c221286 Mon Sep 17 00:00:00 2001
 From: Pierre Riteau <priteau@uchicago.edu>
 Date: Tue, 28 Nov 2017 16:33:04 +0000
-Subject: [PATCH 10/29] Fix the v2.0 Keystone URL
+Subject: [PATCH 10/28] Fix the v2.0 Keystone URL
 
 ---
  .../project/api_access/templates/api_access/openrc_v2.sh.template       | 2 +-

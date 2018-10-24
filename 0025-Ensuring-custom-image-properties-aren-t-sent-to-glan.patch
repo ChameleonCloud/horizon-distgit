@@ -1,7 +1,7 @@
-From 21d2389c84f57f283dd8ad10456c45c93d830118 Mon Sep 17 00:00:00 2001
+From 7c09f83a888239058a621cb7bfc096b483edf533 Mon Sep 17 00:00:00 2001
 From: Alex Rocha <rochaa@tacc.utexas.edu>
 Date: Wed, 25 Jul 2018 14:19:49 -0500
-Subject: [PATCH 29/29] Ensuring custom image properties aren't sent to glance
+Subject: [PATCH 25/28] Ensuring custom image properties aren't sent to glance
  on upate
 
 ---
