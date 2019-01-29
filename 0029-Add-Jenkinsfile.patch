@@ -1,0 +1,35 @@
+From 3f502b2f301abd5f1edf65d76421c40cf581f117 Mon Sep 17 00:00:00 2001
+From: Jason <jasonanderson@uchicago.edu>
+Date: Thu, 10 Jan 2019 13:24:43 -0600
+Subject: [PATCH 29/52] Add Jenkinsfile
+
+---
+ Jenkinsfile | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+ create mode 100644 Jenkinsfile
+
+diff --git a/Jenkinsfile b/Jenkinsfile
+new file mode 100644
+index 0000000..ce2415e
+--- /dev/null
++++ b/Jenkinsfile
+@@ -0,0 +1,16 @@
++pipeline {
++  agent any
++ 
++  environment {
++    PBR_VERSION = env.BRANCH_NAME
++  }
++
++  stages {
++    stage('package') {
++      steps {
++        sh 'python setup.py sdist'
++        archiveArtifacts(artifacts: 'dist/*', onlyIfSuccessful: true)
++      }
++    }
++  }
++}
+-- 
+1.8.3.1
+

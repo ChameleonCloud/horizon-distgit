@@ -1,0 +1,51 @@
+From 841e7e4ab770e50c08caa242ac2e8a69d95954f4 Mon Sep 17 00:00:00 2001
+From: Alex Rocha <rochaa@tacc.utexas.edu>
+Date: Fri, 18 Jan 2019 12:04:47 -0600
+Subject: [PATCH 50/52] including only new url declarations related to
+ chameleon cloud sso
+
+---
+ openstack_dashboard/cc_web_sso_urls.py | 27 ++++++---------------------
+ 1 file changed, 6 insertions(+), 21 deletions(-)
+
+diff --git a/openstack_dashboard/cc_web_sso_urls.py b/openstack_dashboard/cc_web_sso_urls.py
+index fe0cace..d15ca49 100644
+--- a/openstack_dashboard/cc_web_sso_urls.py
++++ b/openstack_dashboard/cc_web_sso_urls.py
+@@ -5,25 +5,10 @@ from openstack_auth import views
+ from openstack_dashboard import cc_websso_views
+ utils.patch_middleware_get_user()
+ 
+-cc_websso_enabled = getattr(settings, 'CC_WEBSSO_ENABLED', False)
+-if(cc_websso_enabled):
+-    urlpatterns = [
+-        url(r"^login/$", cc_websso_views.login, name='login'),
+-        url(r"^logout/$", cc_websso_views.logout, name='logout'),
+-        url(r'^switch/(?P<tenant_id>[^/]+)/$', views.switch,
+-            name='switch_tenants'),
+-        url(r'^switch_services_region/(?P<region_name>[^/]+)/$',
+-            views.switch_region,
+-            name='switch_services_region'),
+-        url(r'^switch_keystone_provider/(?P<keystone_provider>[^/]+)/$',
+-            views.switch_keystone_provider,
+-            name='switch_keystone_provider')
+-    ]
++urlpatterns = [
++    url(r"^login/$", cc_websso_views.login, name='login'),
++    url(r"^logout/$", cc_websso_views.logout, name='logout'),
++]
+ 
+-    if utils.is_websso_enabled():
+-        urlpatterns.append(url(r"^websso/$", views.websso, name='websso'))
+-
+-    if utils.is_websso_enabled():
+-        urlpatterns.append(url(r"^ccwebsso/$", cc_websso_views.cc_websso, name='custom_websso'))
+-else:
+-    urlpatterns = []
+\ No newline at end of file
++if utils.is_websso_enabled():
++    urlpatterns.append(url(r"^ccwebsso/$", cc_websso_views.cc_websso, name='custom_websso'))
+\ No newline at end of file
+-- 
+1.8.3.1
+

@@ -1,7 +1,7 @@
 From 25020b21d1d8ed6cf596563ba7c2a7959606c9b9 Mon Sep 17 00:00:00 2001
 From: codyhammock <hammock@tacc.utexas.edu>
 Date: Tue, 16 Oct 2018 10:47:13 -0500
-Subject: [PATCH 27/28] Fix syntax
+Subject: [PATCH 27/52] Fix syntax
 
 ---
  openstack_dashboard/api/nova.py | 2 +-

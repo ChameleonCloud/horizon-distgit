@@ -1,7 +1,7 @@
 From d2b26fdbf94134de0a04244e622043ce60d09921 Mon Sep 17 00:00:00 2001
 From: Alex Rocha <rochaa@tacc.utexas.edu>
 Date: Thu, 12 Jul 2018 13:53:47 -0500
-Subject: [PATCH 19/28] Adding property for env specific paths in chameleon to
+Subject: [PATCH 19/52] Adding property for env specific paths in chameleon to
  settings
 
 ---

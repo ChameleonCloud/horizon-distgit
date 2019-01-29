@@ -1,7 +1,7 @@
 From 8e0d5e22822b7ddff5d09f76d3c4053e568f7cdb Mon Sep 17 00:00:00 2001
 From: Alex Rocha <rochaa@tacc.utexas.edu>
 Date: Wed, 17 Oct 2018 16:18:31 -0500
-Subject: [PATCH 28/28] linking instance to node details
+Subject: [PATCH 28/52] linking instance to node details
 
 ---
  openstack_dashboard/dashboards/project/instances/tabs.py     |  8 ++++++--

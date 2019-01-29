@@ -1,0 +1,31 @@
+From 2bef96987bbc0d8936a7b21f9559f9824b2810da Mon Sep 17 00:00:00 2001
+From: Jason <jasonanderson@uchicago.edu>
+Date: Thu, 10 Jan 2019 16:48:12 -0600
+Subject: [PATCH 40/52] Update downstream definition
+
+---
+ Jenkinsfile | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/Jenkinsfile b/Jenkinsfile
+index aa798de..4ea7422 100644
+--- a/Jenkinsfile
++++ b/Jenkinsfile
+@@ -19,7 +19,13 @@ pipeline {
+ 
+   post {
+     success {
+-      build job: 'horizon-container', parameters: [string(name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}")]
++      build(
++        job: 'service-containers/master', 
++        parameters: [
++          string(name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}"),
++          string(name: 'PROJECT_NAME', value: "${env.JOB_NAME}")
++        ]
++      )
+     }
+   }
+ }
+-- 
+1.8.3.1
+

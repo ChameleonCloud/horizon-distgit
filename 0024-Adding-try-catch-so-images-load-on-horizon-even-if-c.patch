@@ -1,7 +1,7 @@
 From ef2ccf4daef375a13cc8c2bcb1eaf73b281d8eee Mon Sep 17 00:00:00 2001
 From: Alex Rocha <rochaa@tacc.utexas.edu>
 Date: Tue, 24 Jul 2018 14:42:30 -0500
-Subject: [PATCH 24/28] Adding try/catch so images load on horizon even if
+Subject: [PATCH 24/52] Adding try/catch so images load on horizon even if
  chameleon portal happens to be down
 
 ---

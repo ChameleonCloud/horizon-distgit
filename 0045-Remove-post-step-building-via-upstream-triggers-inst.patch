@@ -1,0 +1,34 @@
+From a5231d459c3d9791661c56ea7d21440beca5870e Mon Sep 17 00:00:00 2001
+From: Jason <jasonanderson@uchicago.edu>
+Date: Fri, 11 Jan 2019 15:52:59 -0600
+Subject: [PATCH 45/52] Remove post step; building via upstream triggers
+ instead
+
+---
+ Jenkinsfile | 12 ------------
+ 1 file changed, 12 deletions(-)
+
+diff --git a/Jenkinsfile b/Jenkinsfile
+index 9572c26..9d160bf 100644
+--- a/Jenkinsfile
++++ b/Jenkinsfile
+@@ -20,16 +20,4 @@ pipeline {
+       }
+     }
+   }
+-
+-  post {
+-    success {
+-      build(
+-        job: 'service-containers/master', 
+-        wait: false,
+-        parameters: [
+-          string(name: 'JOB_NAME', value: "${env.JOB_NAME}")
+-        ]
+-      )
+-    }
+-  }
+ }
+-- 
+1.8.3.1
+

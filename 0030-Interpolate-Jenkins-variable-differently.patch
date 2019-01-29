@@ -1,0 +1,32 @@
+From b341032f2f6fa383070f141b8c415e0583f9fc11 Mon Sep 17 00:00:00 2001
+From: Jason <jasonanderson@uchicago.edu>
+Date: Thu, 10 Jan 2019 13:29:03 -0600
+Subject: [PATCH 30/52] Interpolate Jenkins variable differently
+
+---
+ Jenkinsfile | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/Jenkinsfile b/Jenkinsfile
+index ce2415e..262c266 100644
+--- a/Jenkinsfile
++++ b/Jenkinsfile
+@@ -1,12 +1,11 @@
+ pipeline {
+   agent any
+  
+-  environment {
+-    PBR_VERSION = env.BRANCH_NAME
+-  }
+-
+   stages {
+     stage('package') {
++      environment {
++        PBR_VERSION = "${env.BRANCH_NAME}"
++      }
+       steps {
+         sh 'python setup.py sdist'
+         archiveArtifacts(artifacts: 'dist/*', onlyIfSuccessful: true)
+-- 
+1.8.3.1
+

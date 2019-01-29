@@ -1,0 +1,26 @@
+From 265f67bfb30ebf41d74f40164ba1a7ae022690a9 Mon Sep 17 00:00:00 2001
+From: Jason <jasonanderson@uchicago.edu>
+Date: Thu, 10 Jan 2019 17:25:58 -0600
+Subject: [PATCH 41/52] Only send job name
+
+---
+ Jenkinsfile | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/Jenkinsfile b/Jenkinsfile
+index 4ea7422..3640f72 100644
+--- a/Jenkinsfile
++++ b/Jenkinsfile
+@@ -22,8 +22,7 @@ pipeline {
+       build(
+         job: 'service-containers/master', 
+         parameters: [
+-          string(name: 'BRANCH_NAME', value: "${env.BRANCH_NAME}"),
+-          string(name: 'PROJECT_NAME', value: "${env.JOB_NAME}")
++          string(name: 'JOB_NAME', value: "${env.JOB_NAME}")
+         ]
+       )
+     }
+-- 
+1.8.3.1
+

@@ -1,7 +1,7 @@
 From ad92acd15d29492213ec618e01688710b9a45c08 Mon Sep 17 00:00:00 2001
 From: Alex Rocha <rochaa@tacc.utexas.edu>
 Date: Mon, 15 Oct 2018 14:20:41 -0500
-Subject: [PATCH 26/28] Displaying physical host running each instance
+Subject: [PATCH 26/52] Displaying physical host running each instance
 
 ---
  openstack_dashboard/api/nova.py                                    | 7 ++++++-

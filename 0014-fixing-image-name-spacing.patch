@@ -1,7 +1,7 @@
 From d92ec2478f1b3eca86d8e8a0bcbd6a7d99e4753b Mon Sep 17 00:00:00 2001
 From: Alex Rocha <rochaa@tacc.utexas.edu>
 Date: Thu, 19 Apr 2018 15:31:03 -0500
-Subject: [PATCH 14/28] fixing image name spacing
+Subject: [PATCH 14/52] fixing image name spacing
 
 ---
  .../dashboard/project/workflow/launch-instance/flavor/flavor.html     | 4 ++--

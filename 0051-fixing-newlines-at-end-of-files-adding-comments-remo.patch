@@ -1,0 +1,127 @@
+From 1bada11e4328cd46194d6635dca00931b9338ace Mon Sep 17 00:00:00 2001
+From: Alex Rocha <rochaa@tacc.utexas.edu>
+Date: Tue, 22 Jan 2019 15:50:44 -0600
+Subject: [PATCH 51/52] fixing newlines at end of files, adding comments,
+ removing unused/commented code
+
+---
+ horizon/templates/auth/_logout_page.html |  2 +-
+ horizon/templates/auth/logout.html       |  2 +-
+ openstack_dashboard/cc_web_sso_urls.py   | 15 ++++++++++-----
+ openstack_dashboard/cc_websso_views.py   | 17 +++++++++++++++--
+ openstack_dashboard/settings.py          |  2 +-
+ 5 files changed, 28 insertions(+), 10 deletions(-)
+
+diff --git a/horizon/templates/auth/_logout_page.html b/horizon/templates/auth/_logout_page.html
+index 51d0c8d..31dc628 100644
+--- a/horizon/templates/auth/_logout_page.html
++++ b/horizon/templates/auth/_logout_page.html
+@@ -18,4 +18,4 @@
+       </div>
+     </div>
+   </div>
+-{% endblock %}
+\ No newline at end of file
++{% endblock %}
+diff --git a/horizon/templates/auth/logout.html b/horizon/templates/auth/logout.html
+index 1a5dbbf..0ef934f 100644
+--- a/horizon/templates/auth/logout.html
++++ b/horizon/templates/auth/logout.html
+@@ -11,4 +11,4 @@
+ 
+ {% block footer %}
+   {% include '_login_footer.html' %}
+-{% endblock %}
+\ No newline at end of file
++{% endblock %}
+diff --git a/openstack_dashboard/cc_web_sso_urls.py b/openstack_dashboard/cc_web_sso_urls.py
+index d15ca49..9ce9e2d 100644
+--- a/openstack_dashboard/cc_web_sso_urls.py
++++ b/openstack_dashboard/cc_web_sso_urls.py
+@@ -5,10 +5,15 @@ from openstack_auth import views
+ from openstack_dashboard import cc_websso_views
+ utils.patch_middleware_get_user()
+ 
+-urlpatterns = [
+-    url(r"^login/$", cc_websso_views.login, name='login'),
+-    url(r"^logout/$", cc_websso_views.logout, name='logout'),
+-]
+ 
++""" We need websso enabled for Chameleon portal to sso users into Horizon """
+ if utils.is_websso_enabled():
+-    urlpatterns.append(url(r"^ccwebsso/$", cc_websso_views.cc_websso, name='custom_websso'))
+\ No newline at end of file
++    urlpatterns = [
++        url(r"^login/$", cc_websso_views.login, name='login'),
++        url(r"^logout/$", cc_websso_views.logout, name='logout'),
++    ]
++
++
++    urlpatterns.append(url(r"^ccwebsso/$", cc_websso_views.cc_websso, name='custom_websso'))
++else:
++    urlpatterns = []
+diff --git a/openstack_dashboard/cc_websso_views.py b/openstack_dashboard/cc_websso_views.py
+index a0af0e2..03788ab 100644
+--- a/openstack_dashboard/cc_websso_views.py
++++ b/openstack_dashboard/cc_websso_views.py
+@@ -14,6 +14,10 @@ import six
+ 
+ LOG = logging.getLogger(__name__)
+ 
++"""
++    The below overrides the defaul login functionality and redirects to auth with the preconfigured portal with
++    all the required parameters for login to this Horizon instance
++"""
+ @sensitive_post_parameters()
+ @csrf_protect
+ @never_cache
+@@ -33,6 +37,13 @@ def login(request, template_name=None, extra_context=None, **kwargs):
+         return django_http.HttpResponseRedirect(login_url)
+     return openstack_auth.views.login(request, template_name=None, extra_context=None, **kwargs)
+ 
++"""
++    this is a custom websso endpoint for chameleon portal
++    This primary difference between this and the original websso login code is
++    that the original request's HTTP_REFERER is not used, in the standard websso impmlementation,
++    the HTTP_REFERER would be the Keystone server, which would then be used as the Keystone URL
++    Since we are using the chameleon portal, we want Horizon to use its preconfigured OPENSTACK_KEYSTONE_URL
++"""
+ @sensitive_post_parameters()
+ @csrf_exempt
+ @never_cache
+@@ -47,8 +58,6 @@ def cc_websso(request):
+     try:
+         request.user = auth.authenticate(request=request, auth_url=auth_url, token=token)
+     except exceptions.KeystoneAuthException as exc:
+-        # logger.error('Login failed: %s' % six.text_type(exc))
+-        # raise exc
+         msg = 'Login failed: %s' % six.text_type(exc)
+         res = django_http.HttpResponseRedirect(settings.LOGOUT_URL)
+         res.set_cookie('logout_reason', msg, max_age=10)
+@@ -64,6 +73,10 @@ def cc_websso(request):
+     return django_http.HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+ 
+ 
++"""
++    This overrides the standard logout and redirect to login page, and instead
++    take users to a custom logout page where they can further log out of Chameleon portal
++"""
+ def logout(request, login_url=None, **kwargs):
+     """Logs out the user if he is logged in. Then redirects to the log-in page.
+ 
+diff --git a/openstack_dashboard/settings.py b/openstack_dashboard/settings.py
+index e41d5b3..9136ec7 100644
+--- a/openstack_dashboard/settings.py
++++ b/openstack_dashboard/settings.py
+@@ -185,7 +185,7 @@ INSTALLED_APPS = [
+ 
+ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+ AUTHENTICATION_BACKENDS = ('openstack_auth.backend.KeystoneBackend',)
+-AUTHENTICATION_URLS = ['openstack_auth.urls',]
++AUTHENTICATION_URLS = ['openstack_auth.urls']
+ AUTH_USER_MODEL = 'openstack_auth.User'
+ MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'
+ 
+-- 
+1.8.3.1
+

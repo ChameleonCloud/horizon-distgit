@@ -5,7 +5,7 @@ Name:       python-django-horizon
 # https://review.openstack.org/#/q/I6a35fa0dda798fad93b804d00a46af80f08d475c,n,z
 Epoch:      1
 Version:    11.0.4
-Release:    1.12%{?dist}
+Release:    1.14%{?dist}
 Summary:    Django application for talking to Openstack
 
 Group:      Development/Libraries
@@ -50,6 +50,30 @@ Patch00025: 0025-Ensuring-custom-image-properties-aren-t-sent-to-glan.patch
 Patch00026: 0026-Displaying-physical-host-running-each-instance.patch
 Patch00027: 0027-Fix-syntax.patch
 Patch00028: 0028-linking-instance-to-node-details.patch
+Patch00029: 0029-Add-Jenkinsfile.patch
+Patch00030: 0030-Interpolate-Jenkins-variable-differently.patch
+Patch00031: 0031-Trigger-build-of-container.patch
+Patch00032: 0032-Triggering-job-in-different-way.patch
+Patch00033: 0033-Allow-downstream-build-to-copy-artifacts.patch
+Patch00034: 0034-Update-syntax.patch
+Patch00035: 0035-Trying-more-syntax-tricks.patch
+Patch00036: 0036-More-syntax-modifications.patch
+Patch00037: 0037-Update-Jenkinsfile.patch
+Patch00038: 0038-Build-with-branch-name.patch
+Patch00039: 0039-Fix-double-quoting-issue.patch
+Patch00040: 0040-Update-downstream-definition.patch
+Patch00041: 0041-Only-send-job-name.patch
+Patch00042: 0042-Publish-well-known-artifact-name.patch
+Patch00043: 0043-Update-permissions-for-copying-artifacts.patch
+Patch00044: 0044-Don-t-wait-for-container-to-build.patch
+Patch00045: 0045-Remove-post-step-building-via-upstream-triggers-inst.patch
+Patch00046: 0046-Loosen-restriction-on-artifact-copy.patch
+Patch00047: 0047-first-checkin-of-token-based-sso-login-and-logout-re.patch
+Patch00048: 0048-sending-host-to-cc-portal-for-login-redirect-ensurin.patch
+Patch00049: 0049-Getting-Chameleon-portal-logout-url-from-settings-se.patch
+Patch00050: 0050-including-only-new-url-declarations-related-to-chame.patch
+Patch00051: 0051-fixing-newlines-at-end-of-files-adding-comments-remo.patch
+Patch00052: 0052-ensuring-next-param-cannot-redirect-to-another-domai.patch
 
 #
 # BuildArch needs to be located below patches in the spec file. Don't ask!
@@ -57,7 +81,7 @@ Patch00028: 0028-linking-instance-to-node-details.patch
 
 BuildArch:  noarch
 
-BuildRequires:   python-django
+BuildRequires:   python-django = 1.8.14
 Requires:   python-django
 
 
@@ -465,7 +489,7 @@ systemctl daemon-reload >/dev/null 2>&1 || :
 #%{_datadir}/openstack-dashboard/openstack_dashboard/enabled/_99_customization.*
 
 %changelog
-* Thu Oct 18 2018 Cody hammock <hammock@tacc.utexas.edu> 1:11.0.4-1.12
+* Mon Jan 28 2019 Cody hammock <hammock@tacc.utexas.edu> 1:11.0.4-1.14
 - Add Chameleon patches
 
 * Wed Oct 04 2017 rdo-trunk <javier.pena@redhat.com> 1:11.0.4-1

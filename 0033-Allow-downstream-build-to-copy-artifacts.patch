@@ -1,0 +1,29 @@
+From 886a573fa9d8ed1173dc3677f788acbf775490b8 Mon Sep 17 00:00:00 2001
+From: Jason <jasonanderson@uchicago.edu>
+Date: Thu, 10 Jan 2019 14:33:01 -0600
+Subject: [PATCH 33/52] Allow downstream build to copy artifacts
+
+---
+ Jenkinsfile | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Jenkinsfile b/Jenkinsfile
+index 1848f23..526adb3 100644
+--- a/Jenkinsfile
++++ b/Jenkinsfile
+@@ -1,6 +1,12 @@
+ pipeline {
+   agent any
+  
++  properties {
++    copyArtifactPermissionProperty {
++      projectNames('horizon-container')
++    }
++  }
++
+   stages {
+     stage('package') {
+       environment {
+-- 
+1.8.3.1
+

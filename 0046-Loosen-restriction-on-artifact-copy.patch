@@ -1,0 +1,25 @@
+From 6d6bd9766a7a8459b789c44dffef7fd33e9643fb Mon Sep 17 00:00:00 2001
+From: Jason <jasonanderson@uchicago.edu>
+Date: Fri, 11 Jan 2019 15:53:51 -0600
+Subject: [PATCH 46/52] Loosen restriction on artifact copy
+
+---
+ Jenkinsfile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Jenkinsfile b/Jenkinsfile
+index 9d160bf..51c2157 100644
+--- a/Jenkinsfile
++++ b/Jenkinsfile
+@@ -2,7 +2,7 @@ pipeline {
+   agent any
+  
+   options {
+-    copyArtifactPermission(projectNames: 'service-containers/*')
++    copyArtifactPermission(projectNames: 'horizon*')
+   }
+ 
+   stages {
+-- 
+1.8.3.1
+
